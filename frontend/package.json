@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "next lint",
-    "open-browser": "open http://localhost:3000",
+    "open-browser": "open http://localhost:3001",
     "dev": " npm run open-browser && concurrently --names 'PROXY,APP' --prefix-colors 'yellow,blue' --kill-others 'npm run  proxy' 'npm run dev-run'"
   },
   "dependencies": {
