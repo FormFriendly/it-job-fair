@@ -5,6 +5,10 @@ SQLAlchemy
 uvicorn
 psycopg2
 python-dotenv
+bcrypt 
+pyjwt
+passlib
+pydantic[email]
 
 # dev
 pytest

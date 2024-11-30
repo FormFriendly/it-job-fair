@@ -8,7 +8,7 @@ class CandidateBase(BaseModel):
     surname: str = Field(..., min_length=1, max_length=50, example="Doe")
     patronymic: str = Field(..., min_length=1, max_length=50, example="Doevich")
     date_of_birth: Optional[date] = Field(None, example="1990-01-01")
-    phone: Optional[str] = Field(None, regex=r'^\+?\d{7,15}$', example="+123456789")
+    phone: Optional[str] = Field(None, example="+123456789")
     avatar_path: Optional[str] = Field(None, max_length=255, example="/avatars/johndoe.png")
     tg_link: Optional[str] = Field(None, max_length=255, example="https://t.me/johndoe")
 
@@ -22,7 +22,7 @@ class CandidateUpdate(BaseModel):
     surname: Optional[str] = Field(None, min_length=1, max_length=50, example="Doe")
     patronymic: str = Field(..., min_length=1, max_length=50, example="Doevich")
     date_of_birth: Optional[date] = Field(None, example="1990-01-01")
-    phone: Optional[str] = Field(None, regex=r'^\+?\d{7,15}$', example="+123456789")
+    phone: Optional[str] = Field(None, example="+123456789")
     avatar_path: Optional[str] = Field(None, max_length=255, example="/avatars/johndoe_new.png")
     tg_link: Optional[str] = Field(None, max_length=255, example="https://t.me/johndoe_new")    
 

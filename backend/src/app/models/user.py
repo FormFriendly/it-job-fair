@@ -33,3 +33,8 @@ class User(UserInDBBase):
 # Модель для использования внутри приложения
 class UserInDB(UserInDBBase):
     password: str
+
+# Модель для токена
+class Token(BaseModel):
+    access_token: str
+    token_type: str

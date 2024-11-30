@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, Field, field_validator
-from db import SalaryType, WorkMode, EmploymentType, Experience, VacancyStatus
+from app.db import SalaryType, WorkMode, EmploymentType, Experience, VacancyStatus
 from app.models.skill import Skill
 from app.models.specialization import Specialization
 
