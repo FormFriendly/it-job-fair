@@ -10,6 +10,12 @@ from .company import (
 from .event import (
     EventBase, EventCreate, EventUpdate, EventInDBBase, Event
 )
+from .skill import (
+    SkillBase, SkillCreate, SkillUpdate, SkillInDBBase, Skill
+)
+from .specialization import (
+    SpecializationBase, SpecializationCreate, SpecializationUpdate, SpecializationInDBBase, Specialization
+)
 from .vacancy import (
     VacancyBase, VacancyCreate, VacancyUpdate, VacancyInDBBase, Vacancy
 )
