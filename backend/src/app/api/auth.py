@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.models.user import UserCreate, Token
+from app.models.user import UserCreate, Token, UserLogin
 from app.db import database, users
 from app.crud.auth import hash_password, verify_password
 from app.crud.user import create_access_token
@@ -21,11 +21,14 @@ async def register(user: UserCreate):
     
     return {"message": "User registered successfully", "user": user}
 
-# @router.post("/login", response_model=Token)
-# async def login(user: User):
-#     user_data = users_db.get(user.email)
-#     if not user_data or not verify_password(user.password, user_data["hashed_password"]):
-#         raise HTTPException(status_code=401, detail="Invalid credentials")
-    
-#     access_token = create_access_token(data={"sub": user.email})
-#     return {"access_token": access_token, "token_type": "bearer"}
+@router.post("/login", response_model=Token)
+async def login(form_data: UserLogin):
+    query = users.select().where(users.c.email == form_data.email)
+    user = await database.fetch_one(query)
+    if not user:
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+    if not verify_password(form_data.password, user['password']):
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+
+    access_token = create_access_token(data={"user_id": user['id']})
+    return {"access_token": access_token, "token_type": "bearer"}

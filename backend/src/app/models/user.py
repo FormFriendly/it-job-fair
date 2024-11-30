@@ -11,6 +11,10 @@ class UserBase(BaseModel):
 # Модель для создания пользователя
 class UserCreate(UserBase):
     password: str = Field(..., min_length=8, max_length=128, example="strongpassword")
+    
+class UserLogin(BaseModel):
+    email: EmailStr = Field(None, max_length=255, example="new_email@example.com")
+    password: str = Field(None, min_length=8, max_length=128, example="newpassword")
 
 # Модель для обновления пользователя
 class UserUpdate(BaseModel):
