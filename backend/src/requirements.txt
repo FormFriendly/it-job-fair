@@ -9,6 +9,7 @@ bcrypt
 pyjwt
 passlib
 pydantic[email]
+python-multipart
 
 # dev
 pytest

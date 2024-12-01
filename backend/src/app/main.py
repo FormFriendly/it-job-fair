@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from app.api import ping, auth # Роутеры для обработки запросов к API
-from app.db import engine, metadata, database # Объекты для работы с БД из db.py
+from app.api import ping, auth, candidates, companies
+from app.db import engine, metadata, database
 
 metadata.create_all(engine) # Создание таблиц, определенных в metadata, если они не существуют
 
@@ -19,4 +19,6 @@ async def shutdown():
 
 # Подключение роутеров
 app.include_router(ping.router) 
-app.include_router(auth.router) # Подключение роутера, установка префикса пути и тега для документации
+app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+app.include_router(companies.router, prefix="/api/companies", tags=["companies"])
+app.include_router(candidates.router, prefix="/api/candidates", tags=["candidates"])
