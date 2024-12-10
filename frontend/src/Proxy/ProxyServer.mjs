@@ -9,7 +9,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const apiUrl = '<Поменять на наш бек>';
+const apiUrl = 'http://188.120.251.23:8002';
+const proxyLog = true;
 
 const staticProxy = createProxyMiddleware('/', {
     changeOrigin: true,
@@ -36,6 +37,14 @@ app.use(apiProxy);
 app.use(HMRProxy);
 app.use(staticProxy);
 
+
+
+app.listen(3000, () => {
+    console.log(`Proxy ready on http://localhost:${3000}. open this url instead of the nextjs url`);
+    if (proxyLog) {
+        console.log(`Proxy start with logger.`)
+    }
+})
 app.on('upgrade', HMRProxy.upgrade);
 https.createServer({
     key: fs.readFileSync(path.join(__dirname, './key.key')),
