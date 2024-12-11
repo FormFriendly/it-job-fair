@@ -1,4 +1,3 @@
-import { isServer } from '@/Utils/Server/isServer';
 import {create as createNative, createStore as createStoreNative} from 'zustand';
 import {devtools, DevtoolsOptions} from 'zustand/middleware';
 import {immer} from 'zustand/middleware/immer'
@@ -16,13 +15,13 @@ export type iStore<S, A = null> = A extends Object ? S & {actions: A} : S;
 export const create = <T>(initializer: StateCreator<T, [["zustand/immer", never]], []>, options?: DevtoolsOptions) => 
     createNative<T>()(devtools(immer<T>(initializer), {
         ...options,
-        enabled: process.env.NODE_ENV === 'development' && !isServer,
+        enabled: process.env.NODE_ENV === 'development' && !(typeof window === "undefined"),
     }));
 
 export const createStore = <T>(initializer: StateCreator<T, [["zustand/immer", never]], []>, options?: DevtoolsOptions) => 
     createStoreNative<T>()(devtools(immer<T>(initializer), {
         ...options,
-        enabled: process.env.NODE_ENV === 'development' && !isServer,
+        enabled: process.env.NODE_ENV === 'development' && !(typeof window === "undefined"),
     }))
 
 

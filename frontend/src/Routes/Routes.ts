@@ -3,6 +3,7 @@
 export const Routes = {
     
     login: '/login',
+    registration: '/registration',
     lk: {
         main: '/lk',
     },

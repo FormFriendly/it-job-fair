@@ -28,8 +28,8 @@ const AntProvider = (props: iAntPropvider) => {
                 }
             },
             token: {
-                colorPrimary: '#D92D20',
-                colorPrimaryHover: '#b02116',
+                colorPrimary: '#805AD5',
+                colorPrimaryHover: '#322659',
             },
         }}>
             {props.children}
