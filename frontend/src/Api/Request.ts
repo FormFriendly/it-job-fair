@@ -13,7 +13,6 @@ axios.interceptors.request.use(setAuthHeader);
 
 export default {
     ...axios,
-    // TODO Заменить типизацию для проекта
     get: <T>(...args: Parameters<typeof axios.get>) => {
         return axios.get<T>(...args)
             .then((response) => response.data)

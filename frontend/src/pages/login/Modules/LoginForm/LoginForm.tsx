@@ -1,58 +1,45 @@
-import {useEffect} from 'react';
-import {Form, Input, Button, message} from 'antd';
+import {Form, Input, Button} from 'antd';
 import styles from './LoginForm.module.scss';
-// import { required } from '@/Utils/Form/required';
-import {iApi} from '@/Api/Auth/types';
 import {useLogin} from '../../Hooks/useLogin';
-import { getErrorMessage } from '@/Utils/Api/getErrorMessage';
-import {useQueryClient} from '@tanstack/react-query';
-import {queryKey as userQueryKey} from '@/Hooks/User/useUser';
-
-
-type iForm = iApi.iLogin;
+import createLoginFormData from '../../Utils/createLoginFormData';
+import {iForm} from '../../Types/types';
 
 const LoginForm = () => {
-    const client = useQueryClient();
-    const login = useLogin();
+    const {
+        mutate: login, 
+        isPending: isLoginLoading
+    } = useLogin();
+
+    const onLogin = (values: iForm) => {
+        const loginFormData = createLoginFormData(values);
+        login(loginFormData)
+    }
     
     return (
         <Form<iForm> 
-            onFinish={(values) => {
-                login.mutate(values, {
-                    onError: (err) => {
-                        message.error(getErrorMessage(err));
-                    },
-                    onSuccess: () => {
-                        client.refetchQueries({queryKey:userQueryKey});
-                    }
-                });
-            }}
+            onFinish={onLogin}
             layout="vertical">
             <Form.Item 
-                // rules={[required('логин')]}
-                label="Логин"
+                label="Email"
                 name="username">
                 <Input 
                     placeholder='Введите логин' 
-                    size="large"
-                />
+                    size="large"/>
             </Form.Item>
             <Form.Item 
-                // rules={[required('пароль')]}
                 label="Пароль"
                 name="password">
                 <Input.Password 
                     placeholder='Введите пароль' 
-                    size="large"
-                />
+                    size="large"/>
             </Form.Item>
             <Button 
-                loading={login.isPending}
+                loading={isLoginLoading}
                 htmlType="submit"
                 className={styles.submit}
                 size="large"
                 type="primary">
-                Войти
+                Войти в профиль
             </Button>
         </Form>
     )

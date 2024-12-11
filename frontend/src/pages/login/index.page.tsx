@@ -1,12 +1,13 @@
 import {useEffect} from 'react';
-import Layout from './Layout/Layout';
 import {App} from '@/Types';
 import styles from './index.module.scss';
-// import Logo from '@/Img/logo.png';
-import Image from 'next/image';
 import LoginForm from './Modules/LoginForm/LoginForm';
 import {useRouter} from 'next/router';
 import {useUser} from '@/Hooks/User/useUser';
+import Default from '@/Layouts/Default/Default';
+import Link from 'next/link';
+import Routes from '@/Routes/Routes';
+import { Button } from 'antd';
 
 
 const LoginPage: App.Next.NextPage = () => {
@@ -20,32 +21,29 @@ const LoginPage: App.Next.NextPage = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.content}>
-                <div className={styles.logoWrapper}>
-                    {/* <Image 
-                        className={styles.logo}
-                        src={Logo}
-                        quality={100}
-                        alt="logo"
-                    /> */}
-                </div>
                 <div className={styles.title}>
-                Авторизация
+                    С возвращением!
                 </div>
                 <div className={styles.formWrapper}>
                     <div className={styles.form}>
                         <LoginForm />
                     </div>
+                    <Button size='large' type='link'>
+                        <Link href={Routes.registration}>Зарегистрироваться</Link>
+                    </Button>
                 </div>
             </div>
         </div>
     )
 }
 
-LoginPage.getLayout = (children) => {
+LoginPage.getLayout = (page) => {
     return (
-        <Layout>
-            {children}
-        </Layout>
+        <Default classes={{
+            content: styles.layoutContent
+        }}>
+            {page}
+        </Default>
     )
 }
 

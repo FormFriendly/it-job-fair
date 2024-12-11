@@ -1,6 +1,6 @@
 
 
 export default {
-    login: '/v1/users/token',
-    registration: '/v1/users/user',
+    login: '/auth/login',
+    registration: '/auth/register',
 }
