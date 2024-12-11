@@ -5,7 +5,7 @@ const Document = () =>  {
     return (
         <Html lang="ru">
             <Head>
-                {/* <link rel="icon" href="/favicon.ico" /> */}
+                <link rel="icon" href="/icon.ico" />
                 <meta name="msapplication-TileColor" content="#da532c"/>
                 <meta name="theme-color" content="#ffffff" />
                 <title>
