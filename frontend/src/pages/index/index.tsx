@@ -12,8 +12,8 @@ const RoutingPage = () => {
     useEffect(() => {
         if (roles.unauth) router.push(getRoute.login)
         else {
-            if (roles.user) router.push(getRoute.lk.main);
-            else router.push(getRoute.lkAdmin.main);
+            if (roles.user) router.push(getRoute.profile.main);
+            else router.push(getRoute.profileAdmin.main);
         }
     }, []);
 

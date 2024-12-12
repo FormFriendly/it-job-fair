@@ -1,5 +1,5 @@
 
 
 export default {
-    me: '/v1/users/me',
+    me: '/candidates/me',
 }

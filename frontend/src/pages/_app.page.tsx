@@ -9,7 +9,6 @@ import ReactQueryProvider from '@/Providers/ReactQueryProvider';
 import dayjs from 'dayjs';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import {ChakraProvider} from '@chakra-ui/react'
-import { defaultSystem } from "@chakra-ui/react"
 import 'sanitize.css';
 import './global.scss';
 
@@ -27,21 +26,21 @@ function MyApp (props: App.Next.AppProps) {
     return (
         <main className={font.className}>
             <ErrorBoundary>
-            <ChakraProvider value={defaultSystem}>
-                <AntProvider>
-                    <ReactQueryProvider>
-                        <GetUser>
-                            <CheckUser 
-                                Role={Component.Role}
-                                getLayout={Component.getLayout}>
-                                <Component 
-                                    {...pageProps} 
-                                />
-                                
-                            </CheckUser>
-                        </GetUser>
-                    </ReactQueryProvider>
-                </AntProvider>
+                <ChakraProvider>
+                    <AntProvider>
+                        <ReactQueryProvider>
+                            <GetUser>
+                                <CheckUser
+                                    Role={Component.Role}
+                                    getLayout={Component.getLayout}>
+                                    <Component
+                                        {...pageProps}
+                                    />
+
+                                </CheckUser>
+                            </GetUser>
+                        </ReactQueryProvider>
+                    </AntProvider>
                 </ChakraProvider>
             </ErrorBoundary>
         </main>

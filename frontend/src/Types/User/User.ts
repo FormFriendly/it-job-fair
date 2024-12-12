@@ -26,15 +26,16 @@ export type Token = {
 
 export type Id = string;
 export type Item = {
-    id: Id;
-    created_at: string;
-    updated_at: string;
     name: string,
-    permission_create_order: boolean;
-    permission_read_stat: boolean;
-    email: string,
+    surname: string,
+    patronymic: string,
+    date_of_birth: string,
+    avatar_path: string,
+    tg_link: string,
+    id: Id,
+    user_id: Id,
+    created_at: string,
+    updated_at: string,
     role: Role.BaseRole;
-    telegram_username?: string;
+    // TODO: добавить резюме как появятся изменения на беке
 }
-
-export type RegUser = Omit<Item, 'created_at' | 'updated_at'>
