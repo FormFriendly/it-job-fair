@@ -4,11 +4,11 @@ export const Routes = {
     
     login: '/login',
     registration: '/registration',
-    lk: {
-        main: '/lk',
+    profile: {
+        main: '/profile',
     },
-    lkAdmin: {
-        main: '/lk-admin',
+    profileAdmin: {
+        main: '/profile-admin',
     }
 }
 

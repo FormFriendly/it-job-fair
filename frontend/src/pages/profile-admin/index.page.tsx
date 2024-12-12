@@ -4,7 +4,7 @@ import Default from '@/Layouts/Default/Default';
 const IndexPage:App.Next.NextPage = () => {
     return (
         <div>
-            This is lk-admin page
+            This is profile-admin page
         </div>
     )
 }

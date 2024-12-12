@@ -12,5 +12,8 @@ export default {
         } catch (ex) {
             return null;
         }
+    },
+    profileMe: async () => {
+        return await axios.get<iApi.oMe>(paths.me);
     }
 }
