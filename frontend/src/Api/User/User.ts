@@ -7,7 +7,6 @@ export default {
     me: async () => {
         try {
             if (!CS.token.getAccess()) return null;
-            if (!CS.token.getRefresh()) return null;
             return await axios.get<iApi.oMe>(paths.me);
         } catch (ex) {
             return null;
