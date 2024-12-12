@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  frontend: 
+    stdin_open: true
+    build:
+      context: .
+    ports: 
+      - 3000
+    restart: on-failure
+  nginx: 
+    build: 
+      context: ./nginx
+    ports:
+      - 4444:80
