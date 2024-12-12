@@ -13,6 +13,7 @@
     "dev": " npm run open-browser && concurrently --names 'PROXY,APP' --prefix-colors 'yellow,blue' --kill-others 'npm run  proxy' 'npm run dev-run'"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/next-js": "^2.4.2",
     "@chakra-ui/react": "2.10.4",
     "@emotion/react": "^11.13.5",
