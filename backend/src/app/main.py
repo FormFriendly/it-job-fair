@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 
-from app.api import ping, auth, users, companies, candidates 
+from app.api import ping, auth, users, companies, candidates
 from app.db import engine, metadata, database
 
-metadata.create_all(engine) # Создание таблиц, определенных в metadata, если они не существуют
+# Создание таблиц, определенных в metadata, если они не существуют
+metadata.create_all(engine) 
 
 app = FastAPI()
 
