@@ -1,16 +1,17 @@
 from datetime import datetime, date
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 
 # Базовая модель
 class CandidateBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=50, example="John")
     surname: str = Field(..., min_length=1, max_length=50, example="Doe")
-    patronymic: str = Field(..., min_length=1, max_length=50, example="Doevich")
+    patronymic: Optional[str] = Field(..., min_length=1, max_length=50, example="Doevich")
     date_of_birth: Optional[date] = Field(None, example="1990-01-01")
-    phone: Optional[str] = Field(None, example="+123456789")
-    avatar_path: Optional[str] = Field(None, max_length=255, example="/avatars/johndoe.png")
+    contact_phone: Optional[str] = Field(None, example="+123456789")
+    contact_email: Optional[EmailStr] = Field(None, max_length=255, example="new_email@example.com")
     tg_link: Optional[str] = Field(None, max_length=255, example="https://t.me/johndoe")
+    avatar_path: Optional[str] = Field(None, max_length=255, example="/avatars/johndoe.png")
 
 # Модель для создания
 class CandidateCreate(CandidateBase):
@@ -20,11 +21,12 @@ class CandidateCreate(CandidateBase):
 class CandidateUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=50, example="John")
     surname: Optional[str] = Field(None, min_length=1, max_length=50, example="Doe")
-    patronymic: str = Field(..., min_length=1, max_length=50, example="Doevich")
+    patronymic: Optional[str] = Field(None, min_length=1, max_length=50, example="Doevich")
     date_of_birth: Optional[date] = Field(None, example="1990-01-01")
-    phone: Optional[str] = Field(None, example="+123456789")
-    avatar_path: Optional[str] = Field(None, max_length=255, example="/avatars/johndoe_new.png")
+    contact_phone: Optional[str] = Field(None, example="+123456789")
+    contact_email: Optional[EmailStr] = Field(None, max_length=255, example="new_email@example.com")
     tg_link: Optional[str] = Field(None, max_length=255, example="https://t.me/johndoe_new")    
+    avatar_path: Optional[str] = Field(None, max_length=255, example="/avatars/johndoe_new.png")
 
 # Модель из БД
 class CandidateInDBBase(CandidateBase):

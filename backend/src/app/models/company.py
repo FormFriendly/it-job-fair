@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 
 # Базовая модель
 class CompanyBase(BaseModel):
@@ -8,6 +8,9 @@ class CompanyBase(BaseModel):
     description: Optional[str] = Field(None, max_length=1000, example="Leading tech company...")
     website: Optional[str] = Field(None, max_length=255, example="https://techcorp.com")
     location: Optional[str] = Field(None, max_length=255, example="San Francisco")
+    contact_phone: Optional[str] = Field(None, example="+123456789")
+    contact_email: Optional[EmailStr] = Field(None, max_length=255, example="techcorp@example.com")
+    tg_link: Optional[str] = Field(None, max_length=255, example="https://t.me/techcorp")
     logo_path: Optional[str] = Field(None, max_length=255, example="/logos/techcorp.png")
 
 # Модель для создания
@@ -20,6 +23,9 @@ class CompanyUpdate(BaseModel):
     description: Optional[str] = Field(None, max_length=1000, example="Updated description...")
     website: Optional[str] = Field(None, max_length=255, example="https://techcorp.io")
     location: Optional[str] = Field(None, max_length=255, example="New York")
+    contact_phone: Optional[str] = Field(None, example="+123456789")
+    contact_email: Optional[EmailStr] = Field(None, max_length=255, example="techcorp@example.com")
+    tg_link: Optional[str] = Field(None, max_length=255, example="https://t.me/techcorp")   
     logo_path: Optional[str] = Field(None, max_length=255, example="/logos/techcorp_new.png")
 
 # Модель из БД
