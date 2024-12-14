@@ -1,5 +1,5 @@
 import React from "react";
-import {Avatar, Flex, Button, Text} from "@chakra-ui/react";
+import {Avatar, Flex, Button} from "@chakra-ui/react";
 
 type iProfileImage = {
     imageSrc?: string;

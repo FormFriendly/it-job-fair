@@ -4,12 +4,15 @@ import {Controller, useFormContext} from "react-hook-form";
 type iTextInput = {
     label?: string,
     registerName: string,
+    registerOptions?: any;
+    withError?: boolean;
+    errorMessage?: string;
     margins?: string | string[],
 }
 
 const TextInput = (props: iTextInput & InputProps) => {
     const { control } = useFormContext();
-    const {label, registerName, ...inputProps} = props;
+    const {label, registerName, registerOptions, withError, errorMessage, ...inputProps} = props;
 
     return (
         <Flex flexDirection="column" m={props.margins} width={"100%"}>
@@ -17,12 +20,14 @@ const TextInput = (props: iTextInput & InputProps) => {
             <Controller
                 control={control}
                 name={registerName}
+                rules={registerOptions}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <Input
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
                         focusBorderColor={"purple.500"}
+                        isInvalid={withError && Boolean(errorMessage)}
                         _hover={{
                             borderColor: "purple.500",
                         }}
@@ -30,6 +35,17 @@ const TextInput = (props: iTextInput & InputProps) => {
                     />
                 )}
             />
+            {withError && (
+                <Text
+                    minHeight={["15px", "18px"]}
+                    fontSize={["10px", "10px", "12px"]}
+                    visibility={Boolean(errorMessage) ? 'visible' : 'hidden'}
+                    mt={["4px", "4px", "4px"]}
+                    color={"red.500"}
+                >
+                    {errorMessage}
+                </Text>
+            )}
         </Flex>
     )
 }

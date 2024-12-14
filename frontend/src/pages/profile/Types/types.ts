@@ -16,7 +16,7 @@ export type iUser = {
     // TODO: добавить резюме как появятся изменения на беке
 }
 
-export type IProfileFormInputs = {
+export type iProfileFormInputs = {
     surname: string,
     name: string,
     patronymic: string,

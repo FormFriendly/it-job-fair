@@ -1,5 +1,5 @@
-import {IProfileFormInputs, iUser} from "@/pages/profile/Types/types";
-import {FormProvider, useForm} from "react-hook-form";
+import {iProfileFormInputs, iUser} from "@/pages/profile/Types/types";
+import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
 import ProfileName from "@/pages/profile/Modules/ProfileName";
 import ProfileContacts from "@/pages/profile/Modules/ProfileContacts";
 import ProfileCV from "@/pages/profile/Modules/ProfileCV";
@@ -17,10 +17,11 @@ const ProfileForm = (props: iProfileForm) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
 
     function toggleEditMode() {
+        reset();
         setEditMode(!isEditMode);
     }
 
-    const methods = useForm<IProfileFormInputs>({
+    const methods = useForm<iProfileFormInputs>({
         defaultValues: {
             surname: props.user.surname,
             name: props.user.name,
@@ -31,10 +32,15 @@ const ProfileForm = (props: iProfileForm) => {
             avatar_path: props.user.avatar_path,
         }
     });
+    const { handleSubmit, reset } = methods;
+
+    const onProfileUpdate: SubmitHandler<iProfileFormInputs> = (data) => {
+        console.log(data);
+    }
 
     return (
         <FormProvider {...methods}>
-            <form style={{ width: "100%" }}>
+            <form style={{ width: "100%" }} onSubmit={handleSubmit(onProfileUpdate)} noValidate>
                 <Flex justifyContent={"space-between"} width={"100%"}>
                     <ProfileImage isEditMode={isEditMode} />
                     <Flex flexDirection="column" width={"70%"}>
@@ -47,6 +53,7 @@ const ProfileForm = (props: iProfileForm) => {
                                 height={"48px"}
                                 onClick={toggleEditMode}
                                 variant={isEditMode ? "outline" : "solid"}
+                                type="button"
                             >
                                 {isEditMode ? "Отменить" : "Редактировать профиль"}
                             </Button>
@@ -55,6 +62,7 @@ const ProfileForm = (props: iProfileForm) => {
                                     colorScheme={"purple"}
                                     height={"48px"}
                                     ml={"20px"}
+                                    type="submit"
                                 >
                                     Сохранить изменения
                                 </Button>
