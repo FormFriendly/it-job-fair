@@ -1,12 +1,11 @@
 import React from "react";
 import {Text, Flex} from "@chakra-ui/react";
-import {iUser} from "@/pages/profile/Types/types";
 import TextInput from "@/Components/TextInput";
 import {isValidEmail} from "@/Utils/Validation/isValidEmail";
 import {useFormContext} from "react-hook-form";
 
 type iProfileContacts = {
-    user: iUser
+    isEditMode: boolean;
 }
 
 const ProfileContacts = (props: iProfileContacts) => {
@@ -39,17 +38,30 @@ const ProfileContacts = (props: iProfileContacts) => {
                     }
                     withError={true}
                     errorMessage={errors.email ? String(errors.email?.message) : undefined}
+                    isDisabled={!props.isEditMode}
                 />
                 <TextInput
                     label={"Телефон"}
                     registerName={"phone"}
                     margins={"0 20px"}
                     placeholder={"не указан"}
+                    registerOptions={
+                        {
+                            required: {
+                                value: true,
+                                message: "Обязательное поле"
+                            }
+                        }
+                    }
+                    withError={true}
+                    errorMessage={errors.phone ? String(errors.phone?.message) : undefined}
+                    isDisabled={!props.isEditMode}
                 />
                 <TextInput
                     label={"Telegram"}
                     registerName={"telegram"}
                     placeholder={"не указан"}
+                    isDisabled={!props.isEditMode}
                 />
             </Flex>
         </Flex>

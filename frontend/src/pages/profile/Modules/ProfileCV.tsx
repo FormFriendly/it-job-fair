@@ -10,7 +10,7 @@ type iProfileCV = {
 const ProfileCV = (props: iProfileCV) => {
 
     return (
-        <Flex flexDirection="column" mt={"32px"}>
+        <Flex flexDirection="column" mt={"16px"}>
             <Text
                 fontWeight={600}
                 fontSize={"20px"}
@@ -21,8 +21,9 @@ const ProfileCV = (props: iProfileCV) => {
                 <Flex alignItems="center">
                     <Text
                         fontSize={"18px"}
-                        textDecoration={"underline"}
-                        color={props.cv ? "auto" : "gray.400"}
+                        textDecoration={props.cv ? "underline" : "none"}
+                        color={props.cv ? "auto" : "gray.500"}
+                        opacity={props.cv ? 1 : 0.5}
                     >
                         {props.cv ? "название файла" : "отсутствует"}
                     </Text>

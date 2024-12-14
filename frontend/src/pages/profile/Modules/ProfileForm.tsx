@@ -44,9 +44,9 @@ const ProfileForm = (props: iProfileForm) => {
                 <Flex justifyContent={"space-between"} width={"100%"}>
                     <ProfileImage isEditMode={isEditMode} />
                     <Flex flexDirection="column" width={"70%"}>
-                        <ProfileName user={props.user}/>
-                        <ProfileContacts user={props.user} />
-                        <ProfileCV isEditMode={isEditMode} cv={"test"}/>
+                        <ProfileName isEditMode={isEditMode} />
+                        <ProfileContacts isEditMode={isEditMode} />
+                        <ProfileCV isEditMode={isEditMode} />
                         <Flex mt={"40px"} alignSelf={"flex-end"}>
                             <Button
                                 colorScheme={isEditMode ? "red" : "purple"}

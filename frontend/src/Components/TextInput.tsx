@@ -31,6 +31,10 @@ const TextInput = (props: iTextInput & InputProps) => {
                         _hover={{
                             borderColor: "purple.500",
                         }}
+                        _disabled={{
+                            color: "gray.800",
+                            borderColor: "gray.200"
+                        }}
                         {...inputProps}
                     />
                 )}
