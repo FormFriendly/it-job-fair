@@ -2,6 +2,8 @@ from app.db import UserRole
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
+from app.models.candidate import Candidate
+from app.models.company import Company
 
 # Базовая модель
 class UserBase(BaseModel):
@@ -40,6 +42,11 @@ class UserInDB(UserInDBBase):
     password: str
 
 # Модель для токена
-class Token(UserBase):
-    access_token: str
-    token_type: str
+class UserAuth(UserBase):
+    access_token: str = Field(..., example="eyJhbGciOiJIUzI1...")
+    token_type: str = Field(..., example="bearer")
+    candidate: Optional[Candidate] = None
+    company: Optional[Company] = None
+    
+    class Config:
+        orm_mode = True 

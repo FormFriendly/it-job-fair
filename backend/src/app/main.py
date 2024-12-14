@@ -19,6 +19,6 @@ async def shutdown():
 
 # Подключение роутеров
 app.include_router(ping.router) 
-app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+app.include_router(auth.router, prefix="/api", tags=["auth"])
 app.include_router(companies.router, prefix="/api/companies", tags=["companies"])
 app.include_router(candidates.router, prefix="/api/candidates", tags=["candidates"])

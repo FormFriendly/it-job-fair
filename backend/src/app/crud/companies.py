@@ -13,8 +13,8 @@ async def get_company_by_user_id(user_id: int):
     query = select(companies).where(companies.c.user_id == user_id)
     return await database.fetch_one(query)
 
-async def post(company_data: dict):
-    query = insert(companies).values(**company_data).returning(companies)
+async def post(user_id: int):
+    query = insert(companies).values(user_id=user_id, name="").returning(companies)
     return await database.fetch_one(query)
 
 async def put(user_id: int, company_data: dict):
