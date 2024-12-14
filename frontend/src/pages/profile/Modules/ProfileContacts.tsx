@@ -2,6 +2,7 @@ import React from "react";
 import {Text, Flex} from "@chakra-ui/react";
 import {iUser} from "@/pages/profile/Types/types";
 import getTelegramNickname from "@/pages/profile/Utils/getTelegramNickname";
+import TextInput from "@/Components/TextInput";
 
 type iProfileContacts = {
     user: iUser
@@ -10,35 +11,30 @@ type iProfileContacts = {
 const ProfileContacts = (props: iProfileContacts) => {
 
     return (
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" mt={"32px"}>
             <Text
                 fontWeight={600}
-                fontSize={"24px"}
+                fontSize={"20px"}
                 mb={"12px"}
             >
                 Контакты:
             </Text>
-            <Text
-                fontSize={"18px"}
-                color={props.user.email ? "auto" : "gray.400"}
-            >
-                <Text as={"span"} fontWeight={600} mr={"6px"} color={"gray.800"}>
-                    Email:
-                </Text>
-                {props.user.email || "не указан"}
-            </Text>
-            <Text fontSize={"18px"}>
-                <Text as={"span"} fontWeight={600} mr={"6px"}>
-                    Телефон:
-                </Text>
-                {props.user.phone || "не указан"}
-            </Text>
-            <Text fontSize={"18px"}>
-                <Text as={"span"} fontWeight={600} mr={"6px"}>
-                    Telegram:
-                </Text>
-                {props.user.tg_link ? getTelegramNickname(props.user.tg_link) : "не указан"}
-            </Text>
+            <Flex>
+                <TextInput
+                    label={"Email"}
+                    registerName={"email"}
+                    placeholder={"не указан"}
+                />
+                <TextInput
+                    label={"Телефон"}
+                    registerName={"phone"}
+                    margins={"0 20px"}
+                />
+                <TextInput
+                    label={"Telegram"}
+                    registerName={"telegram"}
+                />
+            </Flex>
         </Flex>
     )
 }

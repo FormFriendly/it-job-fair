@@ -1,8 +1,9 @@
 import React from "react";
-import {Avatar, Flex, Button} from "@chakra-ui/react";
+import {Avatar, Flex, Button, Text} from "@chakra-ui/react";
 
 type iProfileImage = {
     imageSrc?: string;
+    isEditMode: boolean;
 }
 
 const ProfileImage = (props: iProfileImage) => {
@@ -10,8 +11,8 @@ const ProfileImage = (props: iProfileImage) => {
         <Flex
             flexDirection="column"
             alignItems={"center"}
-            width={"268px"}
-            mx={"24px"}
+            mr={"24px"}
+            width={"20%"}
         >
             <Avatar
                 src={props.imageSrc || ""}
@@ -20,14 +21,14 @@ const ProfileImage = (props: iProfileImage) => {
                 height={"128px"}
                 mb={"40px"}
             />
-            <Button
+            {props.isEditMode && <Button
                 variant={"outline"}
                 colorScheme={"purple"}
                 height={"48px"}
                 width={"100%"}
             >
                 Загрузить новый аватар
-            </Button>
+            </Button>}
         </Flex>
     )
 }

@@ -1,54 +1,57 @@
 import React from "react";
-import {Text, Flex, IconButton, Button} from "@chakra-ui/react";
-import { DeleteIcon, DownloadIcon } from "@chakra-ui/icons";
+import {Text, Flex, IconButton} from "@chakra-ui/react";
+import {AttachmentIcon, DeleteIcon} from "@chakra-ui/icons";
 
 type iProfileCV = {
     cv?: any;
+    isEditMode: boolean;
 }
 
 const ProfileCV = (props: iProfileCV) => {
 
     return (
-        <Flex flexDirection="column" ml={"64px"}>
+        <Flex flexDirection="column" mt={"32px"}>
             <Text
                 fontWeight={600}
-                fontSize={"24px"}
+                fontSize={"20px"}
                 mb={"12px"}
             >
                 Резюме:
             </Text>
-                {props.cv ? (
-                    <>
-                        <Text
-                            fontSize={"18px"}
-                            textDecoration={"underline"}
-                        >
-                            название файла
-                        </Text>
-                        <Flex mt={"8px"} justifyContent={"space-evenly"}>
-                            <IconButton
-                                aria-label={"Delete CV"}
-                                bgColor={"white"}
-                                _hover={{ backgroundColor: "red.50" }}
-                                icon={<DeleteIcon color={"red.500"} />}
-                            />
+                <Flex alignItems="center">
+                    <Text
+                        fontSize={"18px"}
+                        textDecoration={"underline"}
+                        color={props.cv ? "auto" : "gray.400"}
+                    >
+                        {props.cv ? "название файла" : "отсутствует"}
+                    </Text>
+                    {props.isEditMode && (
+                        <Flex ml={"12px"}>
                             <IconButton
                                 aria-label={"Change CV"}
                                 bgColor={"white"}
+                                height={"24px"}
+                                width={"28px"}
+                                minWidth={"28px"}
                                 _hover={{ backgroundColor: "purple.50" }}
-                                icon={<DownloadIcon color={"purple.500"}/>}
+                                icon={<AttachmentIcon color={"purple.500"}/>}
                             />
+                            {props.cv && (
+                                <IconButton
+                                    aria-label={"Delete CV"}
+                                    bgColor={"white"}
+                                    height={"24px"}
+                                    width={"28px"}
+                                    minWidth={"28px"}
+                                    ml={"4px"}
+                                    _hover={{ backgroundColor: "red.50" }}
+                                    icon={<DeleteIcon color={"red.500"} />}
+                                />
+                            )}
                         </Flex>
-                    </>
-                ) : (
-                    <Button
-                        rightIcon={<DownloadIcon color={"purple.500"}/>}
-                        variant={"outline"}
-                        colorScheme={"purple"}
-                    >
-                        Загрузить резюме
-                    </Button>
-                )}
+                    )}
+                </Flex>
         </Flex>
     )
 }
