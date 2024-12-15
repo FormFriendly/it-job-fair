@@ -1,44 +1,69 @@
 import React from "react";
 import {Text, Flex} from "@chakra-ui/react";
-import {iUser} from "@/pages/profile/Types/types";
-import getTelegramNickname from "@/pages/profile/Utils/getTelegramNickname";
+import TextInput from "@/Components/TextInput";
+import {isValidEmail} from "@/Utils/Validation/isValidEmail";
+import {useFormContext} from "react-hook-form";
 
 type iProfileContacts = {
-    user: iUser
+    isEditMode: boolean;
 }
 
 const ProfileContacts = (props: iProfileContacts) => {
+    const { formState: { errors } } = useFormContext();
 
     return (
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" mt={"32px"}>
             <Text
                 fontWeight={600}
-                fontSize={"24px"}
+                fontSize={"20px"}
                 mb={"12px"}
             >
                 Контакты:
             </Text>
-            <Text
-                fontSize={"18px"}
-                color={props.user.email ? "auto" : "gray.400"}
-            >
-                <Text as={"span"} fontWeight={600} mr={"6px"} color={"gray.800"}>
-                    Email:
-                </Text>
-                {props.user.email || "не указан"}
-            </Text>
-            <Text fontSize={"18px"}>
-                <Text as={"span"} fontWeight={600} mr={"6px"}>
-                    Телефон:
-                </Text>
-                {props.user.phone || "не указан"}
-            </Text>
-            <Text fontSize={"18px"}>
-                <Text as={"span"} fontWeight={600} mr={"6px"}>
-                    Telegram:
-                </Text>
-                {props.user.tg_link ? getTelegramNickname(props.user.tg_link) : "не указан"}
-            </Text>
+            <Flex>
+                <TextInput
+                    label={"Email"}
+                    registerName={"email"}
+                    placeholder={"не указан"}
+                    registerOptions={
+                        {
+                            required: {
+                                value: true,
+                                message: "Обязательное поле"
+                            },
+                            validate: {
+                                isValid: (value: string) => isValidEmail(value) || "Введите email в формате example@mail.ru"
+                            },
+                        }
+                    }
+                    withError={true}
+                    errorMessage={errors.email ? String(errors.email?.message) : undefined}
+                    isDisabled={!props.isEditMode}
+                />
+                <TextInput
+                    label={"Телефон"}
+                    registerName={"phone"}
+                    margins={"0 20px"}
+                    placeholder={"не указан"}
+                    registerOptions={
+                        {
+                            required: {
+                                value: true,
+                                message: "Обязательное поле"
+                            }
+                        }
+                    }
+                    withError={true}
+                    errorMessage={errors.phone ? String(errors.phone?.message) : undefined}
+                    isDisabled={!props.isEditMode}
+                />
+                <TextInput
+                    label={"Telegram"}
+                    registerName={"telegram"}
+                    placeholder={"не указан"}
+                    isDisabled={!props.isEditMode}
+                />
+            </Flex>
         </Flex>
     )
 }

@@ -15,3 +15,14 @@ export type iUser = {
     updated_at: string,
     // TODO: добавить резюме как появятся изменения на беке
 }
+
+export type iProfileFormInputs = {
+    surname: string,
+    name: string,
+    patronymic: string,
+    email: string,
+    phone: string,
+    telegram: string,
+    avatar_path: string,
+    cv?: any
+}
