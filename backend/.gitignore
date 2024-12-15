@@ -28,3 +28,6 @@ archive.zip
 
 # macOS
 .DS_Store
+
+src/uploads/avatars/*
+src/uploads/resumes/*

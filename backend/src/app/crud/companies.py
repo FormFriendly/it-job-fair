@@ -14,7 +14,7 @@ async def get_company_by_user_id(user_id: int):
     return await database.fetch_one(query)
 
 async def post(user_id: int):
-    query = insert(companies).values(user_id=user_id, name="").returning(companies)
+    query = insert(companies).values(user_id=user_id, name=f"Компания {user_id}").returning(companies)
     return await database.fetch_one(query)
 
 async def put(user_id: int, company_data: dict):

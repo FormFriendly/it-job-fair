@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from app.api import ping, auth, users, companies, candidates 
 from app.db import engine, metadata, database
@@ -23,3 +24,6 @@ app.include_router(auth.router, prefix="/api", tags=["auth"])
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(companies.router, prefix="/api/companies", tags=["companies"])
 app.include_router(candidates.router, prefix="/api/candidates", tags=["candidates"])
+
+# Раздача статических файлов
+app.mount("/avatars", StaticFiles(directory="uploads/avatars"), name="avatars")
