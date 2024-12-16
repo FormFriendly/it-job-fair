@@ -81,6 +81,7 @@ candidates = Table(
     Column("contact_phone", String(20)),
     Column("contact_email", String(255)),
     Column("avatar_path", String(255)),
+    Column("resume_path", String(255)),
     Column("created_at", DateTime(timezone=True), server_default=func.now(), nullable=False),
     Column("updated_at", DateTime(timezone=True), onupdate=func.now()),
 )
