@@ -1,7 +1,7 @@
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from app.models.company import CompanyUpdate, Company
-from app.crud.companies import put, get, get_all, get_company_by_user_id
+from app.crud.companies import put, get, get_all, get_company_by_user_id, update_company_avatar
 from app.api.auth import verify_user_is_company
 
 router = APIRouter()
@@ -56,3 +56,33 @@ async def update_my_company_profile(
     await put(user_id, company_update.dict(exclude_unset=True))
 
     return await get_company_by_user_id(user_id)
+
+@router.post("/me/avatar", response_model=dict)
+async def upload_company_avatar(
+    file: UploadFile = File(...),
+    current_user: dict = Depends(verify_user_is_company),
+):
+    # Проверка формата файла
+    if not file.filename.lower().endswith((".png", ".jpg", ".jpeg")):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid file format. Allowed formats: .png, .jpg, .jpeg"
+        )
+
+    # Формирование пути сохранения
+    filename = f"{current_user['user_id']}_{file.filename}"
+    file_path = os.path.join("uploads/avatars/companies", filename)
+
+    # Сохранение файла
+    with open(file_path, "wb") as f:
+        content = await file.read()
+        f.write(content)
+
+    # Обновление пути в базе данных
+    avatar_url = f"/avatars/companies/{filename}"
+    await update_company_avatar(current_user["user_id"], avatar_url)
+
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={"message": "Avatar uploaded successfully.", "avatar_url": f"http://localhost:8002{avatar_url}"}
+    )

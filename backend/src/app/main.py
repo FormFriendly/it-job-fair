@@ -28,3 +28,5 @@ app.include_router(candidates.router, prefix="/api/candidates", tags=["candidate
 
 # Раздача статических файлов
 app.mount("/avatars", StaticFiles(directory="uploads/avatars"), name="avatars")
+app.mount("/resumes", StaticFiles(directory="uploads/resumes"), name="resumes")
+app.mount("/avatars/companies", StaticFiles(directory="uploads/avatars/companies"), name="company_avatars")

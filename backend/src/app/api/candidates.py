@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.responses import JSONResponse
 from app.core.config import AVATAR_UPLOAD_DIR
 from app.models.candidate import CandidateUpdate, Candidate
-from app.crud.candidates import (get_candidate_by_user_id, get, post, put, update_avatar)
+from app.crud.candidates import (get_candidate_by_user_id, get, post, put, update_avatar, update_resume)
 from app.api.auth import verify_user_is_candidate
 
 router = APIRouter()
@@ -73,4 +73,35 @@ async def upload_avatar(
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content={"message": "Avatar uploaded successfully.", "avatar_url": f"http://localhost:8002{avatar_url}"}
+    )
+
+# Загрузка резюме кандидата
+@router.post("/me/resume", response_model=dict)
+async def upload_resume(
+    file: UploadFile = File(...),
+    current_user: dict = Depends(verify_user_is_candidate),
+):
+    # Проверка формата файла
+    if not file.filename.lower().endswith((".pdf", ".doc", ".docx")):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid file format. Allowed formats: .pdf, .doc, .docx"
+        )
+
+    # Формирование пути сохранения
+    filename = f"{current_user['user_id']}_resume_{file.filename}"
+    file_path = os.path.join("uploads/resumes", filename)
+
+    # Сохранение файла
+    with open(file_path, "wb") as f:
+        content = await file.read()
+        f.write(content)
+
+    # Обновление пути в базе данных
+    resume_url = f"/resumes/{filename}"
+    await update_resume(current_user["user_id"], resume_url)
+
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={"message": "Resume uploaded successfully.", "resume_url": f"http://localhost:8002{resume_url}"}
     )

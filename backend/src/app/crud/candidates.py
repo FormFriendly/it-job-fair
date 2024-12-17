@@ -24,3 +24,7 @@ async def put(user_id: int, candidate_data: dict):
 async def update_avatar(user_id: int, avatar_path: str):
     query = update(candidates).where(candidates.c.user_id == user_id).values(avatar_path=avatar_path)
     await database.execute(query)
+
+async def update_resume(user_id: int, resume_path: str):
+    query = update(candidates).where(candidates.c.user_id == user_id).values(resume_path=resume_path)
+    await database.execute(query)
