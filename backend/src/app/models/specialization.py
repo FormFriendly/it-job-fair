@@ -19,5 +19,5 @@ class SpecializationInDBBase(SpecializationBase):
     class Config:
         orm_mode = True
 
-class Specialization(SpecializationInDBBase):
-    pass
+class Specialization(SpecializationBase):
+    id: int

@@ -18,15 +18,8 @@ class VacancyBase(BaseModel):
     experience: Experience = Field(..., example="1-2 years")
     status: VacancyStatus = Field(VacancyStatus.active, example="active")
 
-    @field_validator('salary_type')
-    def salary_type_requires_salary(cls, v, values):
-        if 'salary' not in values or values['salary'] is None:
-            raise ValueError('Salary must be provided if salary_type is specified')
-        return v
-
 # Модель для создания
 class VacancyCreate(VacancyBase):
-    company_id: int
     event_id: int
     specialization_id: int = Field(..., ge=1)
     skills_ids: Optional[List[int]] = Field(None, example=[1, 2, 3])
@@ -45,12 +38,6 @@ class VacancyUpdate(BaseModel):
     status: Optional[VacancyStatus] = Field(None, example="closed")
     specialization_id: Optional[int] = Field(None, ge=1)
     skills_ids: Optional[List[int]] = Field(None, example=[4, 5, 6])
-
-    @field_validator('salary_type')
-    def salary_type_requires_salary(cls, v, values):
-        if v is not None and ('salary' not in values or values['salary'] is None):
-            raise ValueError('Salary must be provided if salary_type is specified')
-        return v
 
 # Модель из БД
 class VacancyInDBBase(VacancyBase):

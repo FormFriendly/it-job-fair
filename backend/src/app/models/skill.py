@@ -19,5 +19,5 @@ class SkillInDBBase(SkillBase):
     class Config:
         orm_mode = True
 
-class Skill(SkillInDBBase):
-    pass
+class Skill(SkillBase):
+    id: int
