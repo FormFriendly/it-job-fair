@@ -31,7 +31,7 @@ class UserInDBBase(UserBase):
     updated_at: Optional[datetime]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Модель для возврата клиенту через API
 class User(UserInDBBase):
@@ -49,4 +49,4 @@ class UserAuth(UserBase):
     company: Optional[Company] = None
     
     class Config:
-        orm_mode = True 
+        from_attributes = True 

@@ -17,7 +17,7 @@ class SpecializationInDBBase(SpecializationBase):
     updated_at: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Specialization(SpecializationBase):
     id: int
