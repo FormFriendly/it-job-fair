@@ -9,12 +9,13 @@ from app.core.security import create_access_token, hash_password, verify_access_
 
 router = APIRouter()
 
+# Проверка аутентификации и авторизации
 def get_current_user(token: dict = Depends(verify_access_token)):
     user_id = token.get("user_id")
     if not user_id:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     return token
-
+# Проверяем имеет ли пользователь определенную роль
 def verify_user_is_company(current_user: dict = Depends(get_current_user)):
     if current_user.get("role") != UserRole.company:
         raise HTTPException(status_code=403, detail="User is not a company")
@@ -25,6 +26,7 @@ def verify_user_is_candidate(current_user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="User is not a candidate")
     return current_user
 
+# Маршрут для регистрации
 @router.post("/register", response_model=UserAuth, status_code=201)
 async def register(user: UserCreate):
     # Проверяем существование пользователя по email
@@ -48,6 +50,7 @@ async def register(user: UserCreate):
 
     raise HTTPException(status_code=400, detail="Invalid role")
 
+# Маршрут для входа
 @router.post("/login", response_model=UserAuth)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await get_user_by_email(form_data.username)

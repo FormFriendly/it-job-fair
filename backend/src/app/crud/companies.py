@@ -20,3 +20,7 @@ async def post(user_id: int):
 async def put(user_id: int, company_data: dict):
     query = update(companies).where(companies.c.user_id == user_id).values(**company_data)
     await database.execute(query)
+
+async def update_company_avatar(user_id: int, avatar_path: str):
+    query = update(companies).where(companies.c.user_id == user_id).values(avatar_path=avatar_path)
+    await database.execute(query)
