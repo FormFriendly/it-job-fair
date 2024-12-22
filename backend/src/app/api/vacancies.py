@@ -3,7 +3,7 @@ from typing import List
 from app.crud import companies
 from app.models.vacancy import VacancyCreate, Vacancy, VacancyUpdate
 from app.api.auth import verify_user_is_company
-from app.crud.vacancy import post, put, get, get_all
+from app.crud.vacancies import post, put, get, get_all
 
 router = APIRouter()
 
