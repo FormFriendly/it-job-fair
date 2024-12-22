@@ -7,6 +7,8 @@ from sqlalchemy import (
 )
 from sqlalchemy.sql import func
 from databases import Database
+from sqlalchemy import select
+from datetime import datetime
 
 load_dotenv()
 
@@ -187,6 +189,126 @@ applications = Table(
     Column("created_at", DateTime(timezone=True), server_default=func.now(), nullable=False),
     Column("updated_at", DateTime(timezone=True), onupdate=func.now()),
 )
+
+# Статические данные
+STATIC_SKILLS = [
+    {"skill": "Python"},
+    {"skill": "Docker"},
+    {"skill": "Git"},
+    {"skill": "Kubernetes"},
+    {"skill": "FastAPI"},
+    {"skill": "PostgreSQL"},
+    {"skill": "SQLAlchemy"},
+    {"skill": "Linux"},
+    {"skill": "Terraform"},
+    {"skill": "AWS"},
+]
+
+STATIC_SPECIALIZATIONS = [
+    {"name": "Backend Development"},
+    {"name": "Frontend Development"},
+    {"name": "Mobile Development"},
+    {"name": "DevOps"},
+    {"name": "Data Science"},
+    {"name": "Machine Learning"},
+    {"name": "Project Management"},
+    {"name": "QA Testing"},
+    {"name": "UI/UX Design"},
+    {"name": "Cloud Engineering"},
+]
+
+STATIC_EVENTS = [
+    {
+        "name": "Tech Conference 2024",
+        "description": "Annual technology conference.",
+        "img_path": "/images/event1.jpg",
+        "starts_at": datetime(2024, 3, 15, 9, 0),
+        "ends_at": datetime(2024, 3, 15, 17, 0),
+    },
+    {
+        "name": "Python Meetup",
+        "description": "Meetup for Python enthusiasts.",
+        "img_path": "/images/event2.jpg",
+        "starts_at": datetime(2024, 4, 10, 18, 0),
+        "ends_at": datetime(2024, 4, 10, 21, 0),
+    },
+    {
+        "name": "DevOps Summit 2024",
+        "description": "A summit for DevOps professionals to share insights.",
+        "img_path": "/images/event3.jpg",
+        "starts_at": datetime(2024, 5, 20, 10, 0),
+        "ends_at": datetime(2024, 5, 20, 16, 0),
+    },
+    {
+        "name": "Frontend Hackathon",
+        "description": "Hackathon focused on frontend technologies.",
+        "img_path": "/images/event4.jpg",
+        "starts_at": datetime(2024, 6, 5, 9, 0),
+        "ends_at": datetime(2024, 6, 6, 18, 0),
+    },
+    {
+        "name": "Machine Learning Workshop",
+        "description": "Hands-on workshop on machine learning techniques.",
+        "img_path": "/images/event5.jpg",
+        "starts_at": datetime(2024, 7, 12, 14, 0),
+        "ends_at": datetime(2024, 7, 12, 18, 0),
+    },
+    {
+        "name": "Cybersecurity Conference",
+        "description": "Conference on the latest in cybersecurity.",
+        "img_path": "/images/event6.jpg",
+        "starts_at": datetime(2024, 8, 25, 9, 0),
+        "ends_at": datetime(2024, 8, 25, 17, 0),
+    },
+    {
+        "name": "Cloud Computing Expo",
+        "description": "Expo showcasing advancements in cloud computing.",
+        "img_path": "/images/event7.jpg",
+        "starts_at": datetime(2024, 9, 18, 10, 0),
+        "ends_at": datetime(2024, 9, 18, 16, 0),
+    },
+    {
+        "name": "AI Ethics Panel",
+        "description": "Panel discussion on ethical issues in AI.",
+        "img_path": "/images/event8.jpg",
+        "starts_at": datetime(2024, 10, 5, 13, 0),
+        "ends_at": datetime(2024, 10, 5, 15, 0),
+    },
+    {
+        "name": "Blockchain Forum",
+        "description": "Forum for blockchain developers and enthusiasts.",
+        "img_path": "/images/event9.jpg",
+        "starts_at": datetime(2024, 11, 14, 11, 0),
+        "ends_at": datetime(2024, 11, 14, 17, 0),
+    },
+    {
+        "name": "Tech Job Fair 2024",
+        "description": "Job fair connecting companies and tech talent.",
+        "img_path": "/images/event10.jpg",
+        "starts_at": datetime(2024, 12, 1, 9, 0),
+        "ends_at": datetime(2024, 12, 1, 16, 0),
+    },
+]
+
+
+async def initialize_static_data(database):
+    # Проверка и заполнение таблицы skills
+    query = select(skills)
+    existing_skills = await database.fetch_all(query)
+    if not existing_skills:
+        await database.execute_many(skills.insert(), STATIC_SKILLS)
+
+    # Проверка и заполнение таблицы specializations
+    query = select(specializations)
+    existing_specializations = await database.fetch_all(query)
+    if not existing_specializations:
+        await database.execute_many(specializations.insert(), STATIC_SPECIALIZATIONS)
+
+    # Проверка и заполнение таблицы events
+    query = select(events)
+    existing_events = await database.fetch_all(query)
+    if not existing_events:
+        await database.execute_many(events.insert(), STATIC_EVENTS)
 
 # Объект для асинхронного взаимодействия с БД
 database = Database(DATABASE_URL)

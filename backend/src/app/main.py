@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.api import ping, auth, users, companies, candidates, vacancies
 from app.db import engine, metadata, database
+from app.db import initialize_static_data
 
 # Создание таблиц, определенных в metadata, если они не существуют
 metadata.create_all(engine) 
@@ -13,6 +14,7 @@ app = FastAPI()
 @app.on_event("startup")
 async def startup():
     await  database.connect()
+    await initialize_static_data(database)
 
 # Функция, выполняемая при остановке приложения
 @app.on_event("shutdown")
