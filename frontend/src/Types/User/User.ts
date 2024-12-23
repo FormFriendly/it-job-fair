@@ -30,12 +30,14 @@ export type Item = {
     surname: string,
     patronymic: string,
     date_of_birth: string,
-    avatar_path: string,
+    contact_phone: string,
+    contact_email: string,
     tg_link: string,
     id: Id,
     user_id: Id,
+    avatar_path: string,
+    resume_path: string,
     created_at: string,
     updated_at: string,
-    role: Role.BaseRole;
-    // TODO: добавить резюме как появятся изменения на беке
+    // role: Role.BaseRole;
 }

@@ -36,26 +36,26 @@ const mockCompany = {
 
 const IndexPage:App.Next.NextPage = () => {
     return (
-            <Flex
-                flexDir={"column"}
-                my={"40px"}
-                px={"120px"}
-                py={"80px"}
-                width={"90%"}
-                height={"100%"}
-                bgColor={"white"}
-                borderRadius={"8px"}
-                boxShadow={"0px 1px 2px 0px #0000000F, 0px 1px 3px 0px #0000001A"}
-                overflow={"scroll"}
-                _after={{
-                    content: `""`,
-                    display: "block",
-                    height: "80px",
-                    width: "100%"
-                }}
-            >
-                <CompanyProfileForm user={mockCompany} />
-            </Flex>
+        <Flex
+            flexDir={"column"}
+            my={"40px"}
+            px={"120px"}
+            py={"80px"}
+            width={"90%"}
+            height={"100%"}
+            bgColor={"white"}
+            borderRadius={"8px"}
+            boxShadow={"0px 1px 2px 0px #0000000F, 0px 1px 3px 0px #0000001A"}
+            overflow={"scroll"}
+            _after={{
+                content: `""`,
+                display: "block",
+                height: "80px",
+                width: "100%"
+            }}
+        >
+            <CompanyProfileForm user={mockCompany} />
+        </Flex>
     )
 }
 
