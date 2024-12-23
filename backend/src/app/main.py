@@ -3,8 +3,10 @@ from fastapi.staticfiles import StaticFiles
 
 from app.api import ping, auth, users, companies, candidates, vacancies, applications
 from app.db import engine, metadata, database
+from app.db import initialize_static_data
 
-metadata.create_all(engine) # Создание таблиц, определенных в metadata, если они не существуют
+# Создание таблиц, определенных в metadata, если они не существуют
+metadata.create_all(engine) 
 
 app = FastAPI()
 
@@ -12,6 +14,7 @@ app = FastAPI()
 @app.on_event("startup")
 async def startup():
     await  database.connect()
+    await initialize_static_data(database)
 
 # Функция, выполняемая при остановке приложения
 @app.on_event("shutdown")
@@ -30,3 +33,4 @@ app.include_router(applications.router, prefix="/api/applications", tags=["appli
 # Раздача статических файлов
 app.mount("/avatars", StaticFiles(directory="uploads/avatars"), name="avatars")
 app.mount("/resumes", StaticFiles(directory="uploads/resumes"), name="resumes")
+app.mount("/avatars/companies", StaticFiles(directory="uploads/avatars/companies"), name="company_avatars")
