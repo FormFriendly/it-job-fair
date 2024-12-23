@@ -1,4 +1,4 @@
-import {iProfileFormInputs, iUser} from "@/pages/profile/Types/types";
+import {iProfileFormInputs, iCandidateUser} from "@/pages/profile/Types/types";
 import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
 import CandidateName from "@/pages/profile/Modules/CandidateProfile/CandidateName";
 import ProfileContacts from "@/pages/profile/Modules/ProfileContacts";
@@ -10,7 +10,7 @@ import {Button, Flex} from "@chakra-ui/react";
 
 
 type iProfileForm = {
-    user: iUser
+    user: iCandidateUser
 }
 
 const CandidateProfileForm = (props: iProfileForm) => {

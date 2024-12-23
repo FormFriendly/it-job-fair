@@ -1,6 +1,6 @@
 
 
-export type iUser = {
+export type iCandidateUser = {
     name: string,
     surname: string,
     patronymic: string,

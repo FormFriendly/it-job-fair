@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
-import {iCompanyProfileInputs, iCompanyUser, iProfileFormInputs, iUser} from "@/pages/profile/Types/types";
+import {iCompanyProfileInputs, iCompanyUser, iProfileFormInputs, iCandidateUser} from "@/pages/profile/Types/types";
 import getTelegramNickname from "@/pages/profile/Utils/getTelegramNickname";
 import ProfileImage from "@/pages/profile/Modules/ProfileImage";
 import {Button, Flex} from "@chakra-ui/react";

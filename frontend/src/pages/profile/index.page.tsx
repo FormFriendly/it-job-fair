@@ -3,6 +3,7 @@ import Default from '@/Layouts/Default/Default';
 import {Flex} from "@chakra-ui/react";
 import styles from "@/pages/login/index.module.scss";
 import CompanyProfileForm from "@/pages/profile/Modules/CompanyProfile/CompanyProfileForm";
+import CandidateProfileForm from "@/pages/profile/Modules/CandidateProfile/CandidateProfileForm";
 
 const mockUser = {
     name: "John",
@@ -54,7 +55,9 @@ const IndexPage:App.Next.NextPage = () => {
                 width: "100%"
             }}
         >
-            <CompanyProfileForm user={mockCompany} />
+            <CandidateProfileForm user={mockUser} />
+            {/* TODO: исходя из ролевой модели показывать разный профиль
+            <CompanyProfileForm user={mockCompany} />*/}
         </Flex>
     )
 }
