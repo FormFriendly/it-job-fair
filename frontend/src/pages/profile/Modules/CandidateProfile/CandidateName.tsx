@@ -8,7 +8,7 @@ type iProfileName = {
     isEditMode: boolean;
 }
 
-const ProfileName = (props: iProfileName) => {
+const CandidateName = (props: iProfileName) => {
     const { formState: { errors } } = useFormContext();
 
     return (
@@ -56,4 +56,4 @@ const ProfileName = (props: iProfileName) => {
     )
 }
 
-export default ProfileName;
+export default CandidateName;

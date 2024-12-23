@@ -2,7 +2,6 @@ import {App} from '@/Types';
 import Default from '@/Layouts/Default/Default';
 import {Flex} from "@chakra-ui/react";
 import styles from "@/pages/login/index.module.scss";
-import ProfileForm from "@/pages/profile/Modules/ProfileForm";
 import CompanyProfileForm from "@/pages/profile/Modules/CompanyProfile/CompanyProfileForm";
 
 const mockUser = {
@@ -47,7 +46,6 @@ const IndexPage:App.Next.NextPage = () => {
                 boxShadow={"0px 1px 2px 0px #0000000F, 0px 1px 3px 0px #0000001A"}
                 overflowY={"auto"}
             >
-                {/*<ProfileForm user={mockUser} />*/}
                 <CompanyProfileForm user={mockCompany} />
             </Flex>
     )

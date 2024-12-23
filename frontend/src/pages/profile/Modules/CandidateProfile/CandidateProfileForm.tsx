@@ -1,8 +1,8 @@
 import {iProfileFormInputs, iUser} from "@/pages/profile/Types/types";
 import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
-import ProfileName from "@/pages/profile/Modules/ProfileName";
+import CandidateName from "@/pages/profile/Modules/CandidateProfile/CandidateName";
 import ProfileContacts from "@/pages/profile/Modules/ProfileContacts";
-import ProfileCV from "@/pages/profile/Modules/ProfileCV";
+import CandidateCV from "@/pages/profile/Modules/CandidateProfile/CandidateCV";
 import React, {useState} from "react";
 import getTelegramNickname from "@/pages/profile/Utils/getTelegramNickname";
 import ProfileImage from "@/pages/profile/Modules/ProfileImage";
@@ -13,7 +13,7 @@ type iProfileForm = {
     user: iUser
 }
 
-const ProfileForm = (props: iProfileForm) => {
+const CandidateProfileForm = (props: iProfileForm) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
 
     function toggleEditMode() {
@@ -44,9 +44,9 @@ const ProfileForm = (props: iProfileForm) => {
                 <Flex justifyContent={"space-between"} width={"100%"}>
                     <ProfileImage isEditMode={isEditMode} />
                     <Flex flexDirection="column" width={"70%"}>
-                        <ProfileName isEditMode={isEditMode} />
+                        <CandidateName isEditMode={isEditMode} />
                         <ProfileContacts isEditMode={isEditMode} />
-                        <ProfileCV isEditMode={isEditMode} cv={"test"}/>
+                        <CandidateCV isEditMode={isEditMode} cv={"test"}/>
                         <Flex mt={"40px"} alignSelf={"flex-end"}>
                             <Button
                                 colorScheme={isEditMode ? "red" : "purple"}
@@ -76,4 +76,4 @@ const ProfileForm = (props: iProfileForm) => {
     )
 }
 
-export default ProfileForm;
+export default CandidateProfileForm;
