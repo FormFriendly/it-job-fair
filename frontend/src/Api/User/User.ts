@@ -12,8 +12,4 @@ export default {
             return null;
         }
     },
-    profileMe: async () => {
-        return await axios.get<iApi.oMe>(paths.me);
-    },
-    updateCandidate: (params: iApi.iUpdateCandidate) => axios.put<iApi.oUpdateCandidate>(paths.updateCandidate, params),
 }

@@ -2,8 +2,8 @@
 
 export declare namespace Role {
     export type BaseRole = 
-        'user' |
-        'admin';
+        'candidate' |
+        'company';
 
     //Выделили состояние без логина в отдельное значение чтобы проще было указывать у страниц в массиве
     export type State = 
@@ -26,16 +26,9 @@ export type Token = {
 
 export type Id = string;
 export type Item = {
-    name: string,
-    surname: string,
-    patronymic: string,
-    date_of_birth: string,
-    avatar_path: string,
-    tg_link: string,
+    email: string,
+    role: Role.BaseRole;
     id: Id,
-    user_id: Id,
     created_at: string,
     updated_at: string,
-    role: Role.BaseRole;
-    // TODO: добавить резюме как появятся изменения на беке
 }

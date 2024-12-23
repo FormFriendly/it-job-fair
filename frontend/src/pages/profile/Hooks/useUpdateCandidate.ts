@@ -1,12 +1,12 @@
 import {useMutation} from '@tanstack/react-query';
 import {message} from 'antd';
 import * as Api from '@/Api';
-import {iApi} from "@/Api/User/types";
+import {iApi} from "@/Api/Profile/types";
 
-export const useUpdateProfile = () => {
+export const useUpdateCandidate = () => {
     return useMutation({
         mutationFn: (params: iApi.iUpdateCandidate) => {
-            return Api.User.updateCandidate(params);
+            return Api.Profile.updateCandidate(params);
         },
         onError: () => {
             message.error('Ошибка при смене данных')

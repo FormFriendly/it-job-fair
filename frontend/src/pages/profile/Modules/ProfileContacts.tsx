@@ -23,38 +23,24 @@ const ProfileContacts = (props: iProfileContacts) => {
             <Flex>
                 <TextInput
                     label={"Email"}
-                    registerName={"email"}
+                    registerName={"contact_email"}
                     placeholder={"не указан"}
                     registerOptions={
                         {
-                            required: {
-                                value: true,
-                                message: "Обязательное поле"
-                            },
                             validate: {
                                 isValid: (value: string) => isValidEmail(value) || "Введите email в формате example@mail.ru"
                             },
                         }
                     }
                     withError={true}
-                    errorMessage={errors.email ? String(errors.email?.message) : undefined}
+                    errorMessage={errors.contact_email ? String(errors.contact_email?.message) : undefined}
                     isDisabled={!props.isEditMode}
                 />
                 <TextInput
                     label={"Телефон"}
-                    registerName={"phone"}
+                    registerName={"contact_phone"}
                     margins={"0 20px"}
                     placeholder={"не указан"}
-                    registerOptions={
-                        {
-                            required: {
-                                value: true,
-                                message: "Обязательное поле"
-                            }
-                        }
-                    }
-                    withError={true}
-                    errorMessage={errors.phone ? String(errors.phone?.message) : undefined}
                     isDisabled={!props.isEditMode}
                 />
                 <TextInput

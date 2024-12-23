@@ -8,7 +8,7 @@ type iProfileCV = {
     isEditMode: boolean;
 }
 
-const ProfileCV = (props: iProfileCV) => {
+const CandidateCV = (props: iProfileCV) => {
     const toast = useToast();
     const { register, setValue } = useFormContext();
 
@@ -93,4 +93,4 @@ const ProfileCV = (props: iProfileCV) => {
     )
 }
 
-export default ProfileCV
+export default CandidateCV
