@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Path
 from typing import List
 from app.crud import companies
 from app.models.vacancy import VacancyCreate, Vacancy, VacancyUpdate
+from app.models.application import Application
 from app.api.auth import verify_user_is_company
 from app.crud.vacancies import post, put, get, get_all
+from app.crud.applications import get_by_vacancy
 
 router = APIRouter()
 
@@ -67,3 +69,32 @@ async def update_vacancy(
             detail="Vacancy not found or you are not authorized to update it."
         )
     return await put(vacancy_id, vacancy_data)
+
+# Получить отклики по вакансии
+@router.get("/{vacancy_id}/applications", response_model=List[Application])
+async def get_applications_by_vacancy(
+    vacancy_id: int = Path(..., gt=0),
+    current_user: dict = Depends(verify_user_is_company)
+):
+    company = await companies.get_company_by_user_id(current_user["user_id"])
+    if not company:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not authorized to view applications for the vacancy."
+        )
+    company_id = company.id
+    
+    vacancy = await get(vacancy_id)
+    if not vacancy or vacancy.company_id != company_id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Vacancy not found or you are not authorized to view it's applications."
+        )
+        
+    applications = await get_by_vacancy(vacancy_id)
+    if not applications:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Applications not found"
+        )
+    return applications

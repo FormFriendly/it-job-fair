@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from app.api import ping, auth, users, companies, candidates, vacancies
+from app.api import ping, auth, users, companies, candidates, vacancies, applications
 from app.db import engine, metadata, database
 
 metadata.create_all(engine) # Создание таблиц, определенных в metadata, если они не существуют
@@ -25,6 +25,8 @@ app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(companies.router, prefix="/api/companies", tags=["companies"])
 app.include_router(candidates.router, prefix="/api/candidates", tags=["candidates"])
 app.include_router(vacancies.router, prefix="/api/vacancies", tags=["vacancies"])
+app.include_router(applications.router, prefix="/api/applications", tags=["applications"])
 
 # Раздача статических файлов
 app.mount("/avatars", StaticFiles(directory="uploads/avatars"), name="avatars")
+app.mount("/resumes", StaticFiles(directory="uploads/resumes"), name="resumes")

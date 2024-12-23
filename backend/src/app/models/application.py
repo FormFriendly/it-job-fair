@@ -1,7 +1,7 @@
 from app.db import ApplicationStatus
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, root_validator
 
 # Базовая модель
 class ApplicationBase(BaseModel):
@@ -12,17 +12,14 @@ class ApplicationBase(BaseModel):
     is_withdrawn: Optional[bool] = Field(False, example=False)
 
 # Модель для создания
-class ApplicationCreate(ApplicationBase):
+class ApplicationCreate(BaseModel):
     vacancy_id: int
-    candidate_id: int
+    cover_letter: Optional[str] = Field(None, max_length=2000, example="I am very interested in...")
 
 # Модель для обновления
 class ApplicationUpdate(BaseModel):
-    cover_letter: Optional[str] = Field(None, max_length=2000, example="Updated cover letter...")
-    resume_path: Optional[str] = Field(None, max_length=255, example="/resumes/johndoe_updated.pdf")
     status: Optional[ApplicationStatus] = Field(None, example="viewed")
     is_favorited: Optional[bool] = Field(None, example=True)
-    is_withdrawn: Optional[bool] = Field(None, example=True)
 
 # Модель из БД
 class ApplicationInDBBase(ApplicationBase):
@@ -37,4 +34,11 @@ class ApplicationInDBBase(ApplicationBase):
 
 # Модель для ответа клиенту
 class Application(ApplicationInDBBase):
-    pass
+    resume_url: Optional[str] = None
+
+    @root_validator(pre=True)
+    def set_resume_url(cls, values):
+        resume_path = values.get('resume_path')
+        if resume_path:
+            values['resume_url'] = f"http://localhost:8002{resume_path}"
+        return values

@@ -1,9 +1,12 @@
 import os
+from typing import List
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.responses import JSONResponse
 from app.core.config import AVATAR_UPLOAD_DIR
+from app.models.application import Application
 from app.models.candidate import CandidateUpdate, Candidate
 from app.crud.candidates import (get_candidate_by_user_id, get, post, put, update_avatar)
+from app.crud.applications import get_by_candidate
 from app.api.auth import verify_user_is_candidate
 
 router = APIRouter()
@@ -74,3 +77,21 @@ async def upload_avatar(
         status_code=status.HTTP_200_OK,
         content={"message": "Avatar uploaded successfully.", "avatar_url": f"http://localhost:8002{avatar_url}"}
     )
+    
+# Получить отклики кандидата
+@router.get("/me/applications", response_model=List[Application])
+async def get_my_applications(current_user: dict = Depends(verify_user_is_candidate)):
+    existing_candidate = await get_candidate_by_user_id(current_user["user_id"])
+    if not existing_candidate:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Candidate profile not found.",
+        )
+        
+    applications = await get_by_candidate(existing_candidate.id)
+    if not applications:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Applications not found"
+        )
+    return applications
