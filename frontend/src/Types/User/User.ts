@@ -2,8 +2,8 @@
 
 export declare namespace Role {
     export type BaseRole = 
-        'user' |
-        'admin';
+        'candidate' |
+        'company';
 
     //Выделили состояние без логина в отдельное значение чтобы проще было указывать у страниц в массиве
     export type State = 
@@ -26,18 +26,9 @@ export type Token = {
 
 export type Id = string;
 export type Item = {
-    name: string,
-    surname: string,
-    patronymic: string,
-    date_of_birth: string,
-    contact_phone: string,
-    contact_email: string,
-    tg_link: string,
+    email: string,
+    role: Role.BaseRole;
     id: Id,
-    user_id: Id,
-    avatar_path: string,
-    resume_path: string,
     created_at: string,
     updated_at: string,
-    // role: Role.BaseRole;
 }

@@ -1,6 +1,6 @@
 
 
 export default {
-    login: '/auth/login',
-    registration: '/auth/register',
+    login: '/login',
+    registration: '/register',
 }
