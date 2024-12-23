@@ -23,7 +23,7 @@ const ProfileContacts = (props: iProfileContacts) => {
             <Flex>
                 <TextInput
                     label={"Email"}
-                    registerName={"email"}
+                    registerName={"contact_email"}
                     placeholder={"не указан"}
                     registerOptions={
                         {
@@ -42,7 +42,7 @@ const ProfileContacts = (props: iProfileContacts) => {
                 />
                 <TextInput
                     label={"Телефон"}
-                    registerName={"phone"}
+                    registerName={"contact_phone"}
                     margins={"0 20px"}
                     placeholder={"не указан"}
                     registerOptions={

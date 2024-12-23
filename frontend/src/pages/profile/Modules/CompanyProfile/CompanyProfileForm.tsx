@@ -1,52 +1,51 @@
-import {iProfileFormInputs, iUser} from "@/pages/profile/Types/types";
-import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
-import ProfileName from "@/pages/profile/Modules/ProfileName";
-import ProfileContacts from "@/pages/profile/Modules/ProfileContacts";
-import ProfileCV from "@/pages/profile/Modules/ProfileCV";
 import React, {useState} from "react";
+import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
+import {iCompanyProfileInputs, iCompanyUser, iProfileFormInputs, iUser} from "@/pages/profile/Types/types";
 import getTelegramNickname from "@/pages/profile/Utils/getTelegramNickname";
 import ProfileImage from "@/pages/profile/Modules/ProfileImage";
 import {Button, Flex} from "@chakra-ui/react";
+import CompanyDetails from "@/pages/profile/Modules/CompanyProfile/CompanyDetails";
+import ProfileContacts from "@/pages/profile/Modules/ProfileContacts";
 
-
-type iProfileForm = {
-    user: iUser
+type iCompanyProfileForm = {
+    user: iCompanyUser
 }
 
-const ProfileForm = (props: iProfileForm) => {
+const CompanyProfileForm = (props: iCompanyProfileForm) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
+
+    const methods = useForm<iCompanyProfileInputs>({
+        defaultValues: {
+            name: props.user.name,
+            website: props.user.website,
+            location: props.user.location,
+            description: props.user.description,
+            contact_email: props.user.contact_email,
+            contact_phone: props.user.contact_phone,
+            telegram: getTelegramNickname(props.user.tg_link),
+            logo_path: props.user.logo_path,
+        }
+    });
+
+    const { handleSubmit, reset } = methods;
 
     function toggleEditMode() {
         reset();
         setEditMode(!isEditMode);
     }
 
-    const methods = useForm<iProfileFormInputs>({
-        defaultValues: {
-            surname: props.user.surname,
-            name: props.user.name,
-            patronymic: props.user.patronymic,
-            contact_email: props.user.contact_email,
-            contact_phone: props.user.contact_phone,
-            telegram: getTelegramNickname(props.user.tg_link),
-            avatar_path: props.user.avatar_path,
-        }
-    });
-    const { handleSubmit, reset } = methods;
-
-    const onProfileUpdate: SubmitHandler<iProfileFormInputs> = (data) => {
+    const onCompanyUpdate: SubmitHandler<iCompanyProfileInputs> = (data) => {
         console.log(data);
     }
 
-    return (
+    return  (
         <FormProvider {...methods}>
-            <form style={{ width: "100%" }} onSubmit={handleSubmit(onProfileUpdate)} noValidate>
+            <form style={{ width: "100%" }} onSubmit={handleSubmit(onCompanyUpdate)} noValidate>
                 <Flex justifyContent={"space-between"} width={"100%"}>
                     <ProfileImage isEditMode={isEditMode} />
                     <Flex flexDirection="column" width={"70%"}>
-                        <ProfileName isEditMode={isEditMode} />
+                        <CompanyDetails isEditMode={isEditMode} />
                         <ProfileContacts isEditMode={isEditMode} />
-                        <ProfileCV isEditMode={isEditMode} cv={"test"}/>
                         <Flex mt={"40px"} alignSelf={"flex-end"}>
                             <Button
                                 colorScheme={isEditMode ? "red" : "purple"}
@@ -72,8 +71,7 @@ const ProfileForm = (props: iProfileForm) => {
                 </Flex>
             </form>
         </FormProvider>
-
     )
 }
 
-export default ProfileForm;
+export default CompanyProfileForm;
