@@ -38,7 +38,9 @@ class Application(ApplicationInDBBase):
 
     @root_validator(pre=True)
     def set_resume_url(cls, values):
-        resume_path = values.get('resume_path')
+        # Преобразуем values в обычный словарь
+        values_dict = dict(values)
+        resume_path = values_dict.get('resume_path')
         if resume_path:
-            values['resume_url'] = f"http://localhost:8002{resume_path}"
-        return values
+            values_dict['resume_url'] = f"http://localhost:8002{resume_path}"
+        return values_dict

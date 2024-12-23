@@ -1,8 +1,8 @@
-from app.db import applications, database
+from app.db import ApplicationStatus, applications, database
 
 # Создать отклик
 async def post(application_data: dict):
-    query = applications.insert().values(**application_data).returning(applications)
+    query = applications.insert().values(**application_data, status=ApplicationStatus.pending, is_favorited=False, is_withdrawn=False).returning(applications)
     return await database.fetch_one(query)
 
 # Получить отклик по ID

@@ -1,7 +1,9 @@
+import os
 from typing import List
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi.responses import JSONResponse
 from app.models.company import CompanyUpdate, Company
-from app.crud.companies import put, get, get_all, get_company_by_user_id, update_company_avatar
+from app.crud.companies import put, get, get_all, get_company_by_user_id, update_company_logo
 from app.api.auth import verify_user_is_company
 
 router = APIRouter()
@@ -17,17 +19,6 @@ async def get_companies_list():
         )
     return companies
 
-# Получить компанию по id
-@router.get("/{company_id}", response_model=Company)
-async def get_company_profile(company_id: int):
-    company = await get(company_id)
-    if not company:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Company profile not found"
-        )
-    return company
-
 # Получить профиль своей компании
 @router.get("/me", response_model=Company)
 async def get_my_company_profile(current_user: dict = Depends(verify_user_is_company)):
@@ -36,6 +27,17 @@ async def get_my_company_profile(current_user: dict = Depends(verify_user_is_com
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Company profile not found.",
+        )
+    return company
+
+# Получить компанию по id
+@router.get("/{company_id}", response_model=Company)
+async def get_company_profile(company_id: int):
+    company = await get(company_id)
+    if not company:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Company profile not found"
         )
     return company
 
@@ -57,8 +59,8 @@ async def update_my_company_profile(
 
     return await get_company_by_user_id(user_id)
 
-@router.post("/me/avatar", response_model=dict)
-async def upload_company_avatar(
+@router.post("/me/logo", response_model=dict)
+async def upload_company_logo(
     file: UploadFile = File(...),
     current_user: dict = Depends(verify_user_is_company),
 ):
@@ -79,10 +81,10 @@ async def upload_company_avatar(
         f.write(content)
 
     # Обновление пути в базе данных
-    avatar_url = f"/avatars/companies/{filename}"
-    await update_company_avatar(current_user["user_id"], avatar_url)
+    logo_url = f"/avatars/companies/{filename}"
+    await update_company_logo(current_user["user_id"], logo_url)
 
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-        content={"message": "Avatar uploaded successfully.", "avatar_url": f"http://localhost:8002{avatar_url}"}
+        content={"message": "Logo uploaded successfully.", "logo_url": f"http://localhost:8002{logo_url}"}
     )

@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, Path, Body, Query, 
 from fastapi.responses import JSONResponse
 from app.api.auth import verify_user_is_candidate, verify_user_is_company
 from app.core.config import RESUME_UPLOAD_DIR
-from app.crud import companies
+from app.crud import companies, vacancies
 from app.crud.applications import post, get, get_by_vacancy, get_by_candidate, put, delete, update_resume
 from app.crud.candidates import get_candidate_by_user_id
 from app.models.application import Application, ApplicationCreate, ApplicationUpdate
@@ -54,10 +54,9 @@ async def update_application(
             status_code=403,
             detail="You are not authorized to update applications for the vacancy."
         )
-    company_id = company.id
     
-    vacancy = await get(id)
-    if not vacancy or vacancy.company_id != company_id:
+    vacancy = await vacancies.get(id)
+    if not vacancy or vacancy.company_id != company.id:
         raise HTTPException(
             status_code=404,
             detail="Vacancy not found or you are not authorized to update it."
@@ -81,9 +80,11 @@ async def delete_application(
             detail="Candidate profile not found.",
         )
         
-    deleted = await delete(id, candidate.id)
-    if not deleted:
-        raise HTTPException(status_code=404, detail="Application not found or delete failed")
+    application = await get(id)
+    if not application or application.candidate_id != candidate.id:
+        raise HTTPException(status_code=404, detail="Access denied or application not found")
+        
+    await delete(id, candidate.id)
     return {"message": "Application deleted successfully"}
 
 @router.post("/{id}/resume/", response_model=Application)

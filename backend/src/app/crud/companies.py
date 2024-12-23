@@ -21,6 +21,6 @@ async def put(user_id: int, company_data: dict):
     query = update(companies).where(companies.c.user_id == user_id).values(**company_data)
     await database.execute(query)
 
-async def update_company_avatar(user_id: int, avatar_path: str):
-    query = update(companies).where(companies.c.user_id == user_id).values(avatar_path=avatar_path)
+async def update_company_logo(user_id: int, logo_path: str):
+    query = update(companies).where(companies.c.user_id == user_id).values(logo_path=logo_path)
     await database.execute(query)
