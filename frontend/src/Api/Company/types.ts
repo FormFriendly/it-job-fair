@@ -6,16 +6,15 @@ export declare namespace iApi {
 
     type oCompany = {
         name: string,
-        surname: string,
-        patronymic: string,
-        date_of_birth: string,
+        website: string,
+        location: string,
+        description: string,
         contact_phone: string,
         contact_email: string,
+        logo_path: string,
         tg_link: string,
-        id: Id,
-        user_id: Id,
-        avatar_path: string,
-        resume_path: string,
+        id: string | number,
+        user_id: string | number,
         created_at: string,
         updated_at: string,
     }

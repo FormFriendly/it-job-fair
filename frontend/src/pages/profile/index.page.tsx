@@ -4,6 +4,9 @@ import {Flex} from "@chakra-ui/react";
 import styles from "@/pages/login/index.module.scss";
 import CompanyProfileForm from "@/pages/profile/Modules/CompanyProfile/CompanyProfileForm";
 import CandidateProfileForm from "@/pages/profile/Modules/CandidateProfile/CandidateProfileForm";
+import {useCompanyProfile} from "@/pages/profile/Hooks/useCompanyProfile";
+import {useCandidateProfile} from "@/pages/profile/Hooks/useCandidateProfile";
+import {useState} from "react";
 
 const mockUser = {
     name: "John",
@@ -36,6 +39,11 @@ const mockCompany = {
 }
 
 const IndexPage:App.Next.NextPage = () => {
+    const [isCandidate, setIsCandidate] = useState<boolean>(true); // TODO: добавить смену стейта после добавления ролевой модели
+    const {data: candidateData, isPending: candidatePending} = useCandidateProfile(isCandidate);
+    const {data: companyData, isPending: companyPending} = useCompanyProfile(!isCandidate);
+    console.log("candidateData=", candidateData);
+
     return (
         <Flex
             flexDir={"column"}
@@ -55,9 +63,11 @@ const IndexPage:App.Next.NextPage = () => {
                 width: "100%"
             }}
         >
-            <CandidateProfileForm user={mockUser} />
-            {/* TODO: исходя из ролевой модели показывать разный профиль
-            <CompanyProfileForm user={mockCompany} />*/}
+            {isCandidate ? (
+                candidateData && <CandidateProfileForm user={candidateData} />
+            ) : (
+                companyData && <CompanyProfileForm user={companyData} />
+            )}
         </Flex>
     )
 }

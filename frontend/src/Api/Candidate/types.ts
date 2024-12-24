@@ -17,6 +17,8 @@ export declare namespace iApi {
         resume_path: string,
         created_at: string,
         updated_at: string,
+        avatar_url: string,
+        resume_url: string
     }
     
     type iUpdateCandidate = {
