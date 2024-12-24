@@ -5,9 +5,10 @@ import styles from "@/pages/login/index.module.scss";
 import SearchHeader from "@/pages/vacancies/Modules/SearchHeader";
 import VacancyList from "@/pages/vacancies/Modules/VacancyList";
 import {useVacancies} from "@/pages/vacancies/Hooks/useVacancies";
+import LoaderCircle from "@/Components/Loader/LoaderCircle";
 
 const IndexPage:App.Next.NextPage = () => {
-    const {data, isPending, isSuccess, isError} = useVacancies();
+    const {data, isPending} = useVacancies();
 
     return (
         <Flex
@@ -21,7 +22,7 @@ const IndexPage:App.Next.NextPage = () => {
                 width={"60%"}
             >
                 <SearchHeader />
-                <VacancyList />
+                {isPending ? (<LoaderCircle />) : (data && <VacancyList vacancies={data}/>)}
             </Flex>
         </Flex>
     )
