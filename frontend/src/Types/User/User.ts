@@ -29,6 +29,7 @@ export type Item = {
     email: string,
     role: Role.BaseRole;
     id: Id,
+    name: string
     created_at: string,
     updated_at: string,
 }

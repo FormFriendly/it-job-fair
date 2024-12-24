@@ -1,62 +1,74 @@
-import {Form, Input, Select, Button} from 'antd';
-import styles from './RegistrationForm.module.scss';
-import {iForm} from '../../Types/types';
+import React from 'react';
+import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { Button, FormControl, FormLabel, Input, Select, Stack } from '@chakra-ui/react';
+import { useRegistration } from '../../Hooks/useRegistration';
 import createRegistrationFormData from '../../Utils/createRegistrationFormData';
-import {useRegistration} from '../../Hooks/useRegistration';
+import { iForm } from '../../Types/types';
 
 const RegistrationForm = () => {
-    const {
-        mutate: registration, 
-        isPending: isRegistrationLoading
-    } = useRegistration();
+    const methods = useForm<iForm>();
+    const { mutate: registration, isPending: isRegistrationLoading } = useRegistration();
 
-    const onRegistration = (values: iForm) => {
+    const onRegistration: SubmitHandler<iForm> = (values) => {
         const registrationFormData = createRegistrationFormData(values);
         registration({
             email: values.email,
             password: values.password,
             role: values.role,
-        })
-    }
+        });
+    };
+
     return (
-        <Form<iForm>
-            onFinish={onRegistration}
-            layout="vertical">
-                <Form.Item 
-                    name="email" 
-                    label="Email">
-                    <Input 
-                        size="large" 
-                        placeholder="Email" />
-                </Form.Item>
-                    <Form.Item 
-                        name="password" 
-                        label="Пароль">
-                        <Input.Password  
-                            size="large" 
-                            placeholder="Пароль" />
-                </Form.Item>
-                <Form.Item 
-                    name="role" 
-                    label="Роль" 
-                    initialValue={"candidate"}>
-                    <Select 
-                        size='large' 
-                        options={[
-                            {value: "candidate", label: "Кандидат"},
-                            {value: "company", label: "Компания"},
-                        ]}/>
-                </Form.Item>
-                <Button 
-                loading={isRegistrationLoading}
-                htmlType="submit"
-                className={styles.submit}
-                size="large"
-                type="primary">
-                    Зарегистрироваться
-                </Button>
-        </Form>
-    )
-}
+        <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onRegistration)} noValidate>
+                <Stack spacing={4} width="100%">
+                    <FormControl isRequired>
+                        <FormLabel htmlFor="email">Email</FormLabel>
+                        <Input
+                            id="email"
+                            placeholder="Email"
+                            size="lg"
+                            {...methods.register('email')}
+                        />
+                    </FormControl>
+
+                    <FormControl isRequired>
+                        <FormLabel htmlFor="password">Пароль</FormLabel>
+                        <Input
+                            id="password"
+                            type="password"
+                            placeholder="Пароль"
+                            size="lg"
+                            {...methods.register('password')}
+                        />
+                    </FormControl>
+
+                    <FormControl isRequired>
+                        <FormLabel htmlFor="role">Роль</FormLabel>
+                        <Select
+                            id="role"
+                            placeholder="Выберите роль"
+                            size="lg"
+                            defaultValue="candidate"
+                            {...methods.register('role')}
+                        >
+                            <option value="candidate">Кандидат</option>
+                            <option value="company">Компания</option>
+                        </Select>
+                    </FormControl>
+
+                    <Button
+                        isLoading={isRegistrationLoading}
+                        type="submit"
+                        colorScheme="blue"
+                        size="lg"
+                    >
+                        Зарегистрироваться
+                    </Button>
+                </Stack>
+            </form>
+        </FormProvider>
+    );
+};
 
 export default RegistrationForm;

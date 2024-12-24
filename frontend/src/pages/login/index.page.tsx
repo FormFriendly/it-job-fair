@@ -7,7 +7,7 @@ import {useUser} from '@/Hooks/User/useUser';
 import Default from '@/Layouts/Default/Default';
 import Link from 'next/link';
 import Routes from '@/Routes/Routes';
-import { Button } from 'antd';
+import {Button} from '@chakra-ui/react';
 
 
 const LoginPage: App.Next.NextPage = () => {
@@ -28,7 +28,7 @@ const LoginPage: App.Next.NextPage = () => {
                     <div className={styles.form}>
                         <LoginForm />
                     </div>
-                    <Button size='large' type='link'>
+                    <Button size='large' type='submit'>
                         <Link href={Routes.registration}>Зарегистрироваться</Link>
                     </Button>
                 </div>

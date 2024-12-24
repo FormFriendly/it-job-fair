@@ -1,18 +1,30 @@
 import {useMutation} from '@tanstack/react-query';
-import {message} from 'antd';
+import {Avatar, Flex, Button, Input, useToast} from "@chakra-ui/react";
 import * as Api from '@/Api';
 import {iApi} from "@/Api/Profile/types";
 
 export const useUpdateCandidate = () => {
+    const toast = useToast()
     return useMutation({
         mutationFn: (params: iApi.iUpdateCandidate) => {
             return Api.Profile.updateCandidate(params);
         },
         onError: () => {
-            message.error('Ошибка при смене данных')
+            toast({
+                position: "bottom-left",
+                title: "Ошибка",
+                description: "Ошибка при смене данных",
+                status: "error",
+                isClosable: true,
+            })
         },
         onSuccess: (data) => {
-            message.success('Вы успешно сменили данные профиля')
+            toast({
+                position: "bottom-left",
+                description: "Вы успешно сменили данные профиля",
+                status: 'success',
+                isClosable: true,
+            })
         }
     })
 }

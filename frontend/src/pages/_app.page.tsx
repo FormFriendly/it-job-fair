@@ -4,7 +4,6 @@ import ErrorBoundary from '@/Containers/ErrorBoundary/ErrorBoundary';
 import CheckUser from '@/Containers/CheckUser/CheckUser';
 import GetUser from '@/Containers/GetUser/GetUser';
 import { Roboto } from 'next/font/google'
-import AntProvider from '@/Providers/AntPorvider';
 import ReactQueryProvider from '@/Providers/ReactQueryProvider';
 import dayjs from 'dayjs';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
@@ -27,7 +26,6 @@ function MyApp (props: App.Next.AppProps) {
         <main className={font.className}>
             <ErrorBoundary>
                 <ChakraProvider>
-                    <AntProvider>
                         <ReactQueryProvider>
                             <GetUser>
                                 <CheckUser
@@ -40,7 +38,6 @@ function MyApp (props: App.Next.AppProps) {
                                 </CheckUser>
                             </GetUser>
                         </ReactQueryProvider>
-                    </AntProvider>
                 </ChakraProvider>
             </ErrorBoundary>
         </main>

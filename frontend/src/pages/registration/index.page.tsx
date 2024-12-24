@@ -1,6 +1,6 @@
 import {App} from '@/Types';
 import styles from './index.module.scss';
-import {Button} from 'antd';
+import { Button } from '@chakra-ui/react';
 import RegistrationForm from './Modules/RegistrationForm/RegistrationForm';
 import Default from '@/Layouts/Default/Default';
 import Routes from '@/Routes/Routes';
@@ -17,7 +17,7 @@ const LoginPage: App.Next.NextPage = () => {
                 <div className={styles.form}>
                     <RegistrationForm />
                 </div>
-                <Button size='large' type='link'>
+                <Button size='large'>
                     <Link href={Routes.login}>Войти</Link>
                 </Button>
             </div>
