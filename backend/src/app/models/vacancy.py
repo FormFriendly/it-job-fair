@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, Field, field_validator
 from app.db import SalaryType, WorkMode, EmploymentType, Experience, VacancyStatus
+from app.models.company import Company
 from app.models.skill import Skill
 from app.models.specialization import Specialization
 
@@ -55,3 +56,4 @@ class VacancyInDBBase(VacancyBase):
 class Vacancy(VacancyInDBBase):
     skills: Optional[List[Skill]] = None
     specialization: Optional[Specialization] = None
+    company: Optional[Company] = None

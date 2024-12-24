@@ -3,6 +3,8 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, Field, root_validator
 
+from app.models.candidate import Candidate
+
 # Базовая модель
 class ApplicationBase(BaseModel):
     cover_letter: Optional[str] = Field(None, max_length=2000, example="I am very interested in...")
@@ -35,6 +37,7 @@ class ApplicationInDBBase(ApplicationBase):
 # Модель для ответа клиенту
 class Application(ApplicationInDBBase):
     resume_url: Optional[str] = None
+    candidate: Optional[Candidate] = None
 
     @root_validator(pre=True)
     def set_resume_url(cls, values):

@@ -1,6 +1,7 @@
 from typing import List
 from sqlalchemy import select, insert, update, delete
 from app.db import vacancies, vacancies_skills, specializations, skills, database
+from app.crud.companies import get as get_company
 from app.models.vacancy import Vacancy, VacancyUpdate
 
 # Создать вакансию
@@ -75,6 +76,7 @@ async def get(vacancy_id: int):
     vacancy_data = dict(vacancy)
     vacancy_data["skills"] = skills_result
     vacancy_data["specialization"] = {"id": vacancy["specialization_id"], "name": vacancy["specialization_name"]}
+    vacancy_data["company"] = await get_company(vacancy.company_id)
 
     return Vacancy(**vacancy_data)
 
@@ -121,6 +123,7 @@ async def get_all():
                     "id": vacancy["specialization_id"],
                     "name": vacancy["specialization_name"],
                 },
+                company = await get_company(vacancy.company_id)
             )
         )
 
