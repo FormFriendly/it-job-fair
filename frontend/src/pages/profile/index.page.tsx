@@ -62,7 +62,7 @@ const IndexPage:App.Next.NextPage = () => {
     )
 }
 
-//IndexPage.Role = ['user'];
+IndexPage.Role = ['auth'];
 IndexPage.getLayout = (children) => {
     return (
         <Default classes={{

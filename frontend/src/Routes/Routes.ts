@@ -1,14 +1,11 @@
-
-
 export const Routes = {
-    
     login: '/login',
     registration: '/registration',
     profile: {
         main: '/profile',
     },
-    profileAdmin: {
-        main: '/profile-admin',
+    company: {
+        vacancies: "/company/vacancies",
     }
 }
 

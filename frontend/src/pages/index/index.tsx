@@ -3,7 +3,7 @@ import Loader from "@/Components/Loader/Loader";
 import {useUserRole} from '@/Hooks/User/useUserRole';
 import {useRouter} from 'next/router';
 import getRoute from '@/Routes/Routes';
-import styles from './index.module.scss';
+import {Box} from '@chakra-ui/react'
 
 
 const RoutingPage = () => {
@@ -12,15 +12,15 @@ const RoutingPage = () => {
     useEffect(() => {
         if (roles.unauth) router.push(getRoute.login)
         else {
-            if (roles.user) router.push(getRoute.profile.main);
-            else router.push(getRoute.profileAdmin.main);
+            if (roles.candidate) router.push(getRoute.profile.main);
+            // else router.push(getRoute.profileAdmin.main); // Переделать на компанию
         }
     }, []);
 
     return (
-        <div className={styles.wrapper}>
+        <Box height={'100svh'} alignItems={'center'} justifyContent={'center'} display={'flex'} width={'100%'}>
             <Loader text="Выполняем маршрутизацию..." />
-        </div>
+        </Box>
     )
 }
 

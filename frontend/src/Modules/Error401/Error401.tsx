@@ -4,7 +4,7 @@ import styles from './Error401.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import routes from '@/Routes/Routes';
-import {Button} from 'antd';
+import { Button } from '@chakra-ui/react';
 
 type iPage401 = {
     reason: 'role' | 'unauth'
@@ -21,8 +21,7 @@ const Page401 = (props: iPage401) => {
                         <br />
                         <Link href={routes.login}>
                             <Button 
-                                size="large"
-                                type="primary">
+                                size="large">
                                 Перейти к авторизации
                             </Button>
                         </Link>

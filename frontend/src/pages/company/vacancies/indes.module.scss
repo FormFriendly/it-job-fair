@@ -1,0 +1,20 @@
+.layoutContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FAF5FF;
+}
+
+.wrapper {
+    width: 100%;
+    padding: 50px;
+    height: 100%;
+
+}
+
+.content {
+    padding: 50px;
+    background: white;
+    border-radius: 8px;
+    height: 100%;
+}
