@@ -32,4 +32,6 @@ export declare namespace iApi {
         skills: Array<iSkill>,
         specialization: iSpecialization
     }
+
+    type oVacancies = Array<oVacancy>
 }

@@ -2,7 +2,7 @@ import React from "react";
 import {Flex, Heading, Text} from "@chakra-ui/react";
 
 type iVacancyDescription = {
-    description: string;
+    description?: string;
 }
 
 const VacancyDescription = (props: iVacancyDescription) => {
@@ -21,7 +21,7 @@ const VacancyDescription = (props: iVacancyDescription) => {
                 Описание вакансии
             </Heading>
             <Text fontSize={"18px"}>
-                {props.description}
+                {props.description || "Нет описания"}
             </Text>
         </Flex>
     )

@@ -7,10 +7,16 @@ import VacancyDescription from "@/pages/vacancies/[id]/Modules/VacancyDescriptio
 import {useVacancyById} from "@/pages/vacancies/[id]/Hooks/useVacancyById";
 import LoaderCircle from "@/Components/Loader/LoaderCircle";
 import {useRouter} from "next/router";
+import getSingleQueryValue from "@/pages/vacancies/[id]/Utils/getSingleQueryValue";
 
 const IndexPage:App.Next.NextPage = () => {
     const router = useRouter();
-    const { data, isPending } = useVacancyById(router.query.id);
+    const id = getSingleQueryValue(router.query.id) || "1";
+    const { data, isPending } = useVacancyById(id);
+
+    if (router.query.id === undefined) {
+        router.push("/vacancies");
+    }
 
     return (
         <Flex
