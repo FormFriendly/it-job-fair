@@ -3,17 +3,17 @@ import * as Api from '@/Api';
 import {iApi} from "@/Api/Candidate/types";
 import { useToast } from '@chakra-ui/react';
 
-export const useUploadCandidateAvatar = () => {
+export const useUploadCandidateResume = () => {
     const toast = useToast()
     return useMutation({
-        mutationFn: (params: iApi.iUploadAvatar) => {
-            return Api.Candidate.uploadAvatar(params);
+        mutationFn: (params: iApi.iUploadResume) => {
+            return Api.Candidate.uploadResume(params);
         },
         onError: () => {
             toast({
                 position: "bottom-left",
                 title: "Ошибка",
-                description: "Ошибка при смене аватара",
+                description: "Ошибка при загрузке резюме",
                 status: "error",
                 isClosable: true,
             })
@@ -21,7 +21,7 @@ export const useUploadCandidateAvatar = () => {
         onSuccess: (data) => {
             toast({
                 position: "bottom-left",
-                description: "Вы успешно сменили аватар",
+                description: "Вы успешно загрузили резюме",
                 status: 'success',
                 isClosable: true,
             })
