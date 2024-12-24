@@ -4,8 +4,11 @@ import {Flex} from "@chakra-ui/react";
 import styles from "@/pages/login/index.module.scss";
 import SearchHeader from "@/pages/vacancies/Modules/SearchHeader";
 import VacancyList from "@/pages/vacancies/Modules/VacancyList";
+import {useVacancies} from "@/pages/vacancies/Hooks/useVacancies";
 
 const IndexPage:App.Next.NextPage = () => {
+    const {data, isPending, isSuccess, isError} = useVacancies();
+
     return (
         <Flex
             flexDir={"column"}

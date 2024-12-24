@@ -32,6 +32,7 @@ const mockVacancies = [
 ]
 
 const VacancyList = () => {
+
     return (
         mockVacancies.map(vacancy => (
             <VacancyItem

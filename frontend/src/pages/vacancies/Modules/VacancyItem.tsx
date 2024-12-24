@@ -5,12 +5,18 @@ import Salary from "@/pages/vacancies/Modules/Salary";
 import TagItem from "@/Components/TagItem";
 import workModeTypes from "@/pages/vacancies/Utils/workModeTypes";
 import experienceTypes from "@/pages/vacancies/Utils/experienceTypes";
+import {useRouter} from "next/router";
 
 type iVacancyItem = {
     vacancy: iVacancy;
 }
 
 const VacancyItem = (props: iVacancyItem) => {
+    const router = useRouter();
+
+    function onVacancyClick(id: number) {
+        router.push("/vacancies/" + id);
+    }
 
     return (
         <Flex
@@ -22,7 +28,7 @@ const VacancyItem = (props: iVacancyItem) => {
             py={"40px"}
             px={"50px"}
         >
-            <Heading mb={"16px"}>
+            <Heading mb={"16px"} fontSize={"28px"}>
                 {props.vacancy.title}
             </Heading>
             <Flex>
@@ -40,6 +46,7 @@ const VacancyItem = (props: iVacancyItem) => {
             <Button
                 colorScheme={"purple"}
                 width={"230px"}
+                onClick={() => { onVacancyClick(props.vacancy.id) }}
             >
                 Откликнуться
             </Button>

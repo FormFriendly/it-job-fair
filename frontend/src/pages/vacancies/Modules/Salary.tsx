@@ -4,11 +4,12 @@ type iSalary = {
     salaryType: "from" | "to";
     salary: number;
     currency?: string;
+    fontSize?: string;
 }
 
 const Salary = (props: iSalary) => {
     return (
-        <Text fontSize={"16px"}>
+        <Text fontSize={props.fontSize || "16px"}>
             {props.salaryType === "from" ? "от " : "до "}
             <Text as={"span"} fontWeight={600}>{props.salary + " " + props.currency}</Text>
         </Text>
