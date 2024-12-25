@@ -41,10 +41,10 @@ async def register(user: UserCreate):
     access_token = create_access_token(data={"user_id": user['id'], "role": user["role"]})
     
     # Создаем профиль в зависимости от роли
-    if user.role == UserRole.candidate:
+    if user['role'] == UserRole.candidate:
         candidate = await create_candidate_profile(user["id"])
         return {"access_token": access_token, "token_type": "bearer", **user, "candidate": candidate, "company": None}
-    elif user.role == UserRole.company:
+    elif user['role'] == UserRole.company:
         company = await create_company_profile(user["id"])
         return {"access_token": access_token, "token_type": "bearer", **user, "candidate": None, "company": company}
 
