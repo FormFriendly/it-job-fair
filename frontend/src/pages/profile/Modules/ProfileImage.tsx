@@ -5,6 +5,7 @@ import {Controller, useFormContext} from "react-hook-form";
 type iProfileImage = {
     imageSrc?: string;
     isEditMode: boolean;
+    isCompany?: boolean;
 }
 
 const ProfileImage = (props: iProfileImage) => {
@@ -39,7 +40,7 @@ const ProfileImage = (props: iProfileImage) => {
 
         const urlImage = URL.createObjectURL(file);
         setPreviewImage(urlImage);
-        setValue("avatar", file);
+        setValue(props.isCompany ? "logo" : "avatar", file);
     };
 
     return (
@@ -62,10 +63,10 @@ const ProfileImage = (props: iProfileImage) => {
                 height={"48px"}
                 width={"100%"}
             >
-                Загрузить новый аватар
+                {props.isCompany ? "Загрузить новый логотип" : "Загрузить новый аватар"}
                 <Controller
                     control={control}
-                    name={"avatar"}
+                    name={props.isCompany ? "logo" : "avatar"}
                     render={({ field: { value, onChange, ...field } }) => {
                         return (
                             <Input

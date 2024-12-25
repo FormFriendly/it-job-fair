@@ -25,7 +25,7 @@ export type iProfileFormInputs = {
     contact_phone: string,
     tg_link: string | null,
     avatar?: File | null,
-    resume?: File | null
+    resume?: File | null,
 }
 
 export type iCompanyUser = {
@@ -50,6 +50,10 @@ export type iCompanyProfileInputs = {
     description: string,
     contact_phone: string,
     contact_email: string,
-    logo_path: string,
-    telegram: string,
+    tg_link: string | null,
+    logo?: File | null,
+}
+
+export type iProfileQuery = {
+    enabled: boolean,
 }

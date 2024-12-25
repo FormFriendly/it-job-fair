@@ -26,11 +26,11 @@ export declare namespace iApi {
         location: string,
         contact_phone: string,
         contact_email: string,
-        tg_link: string,
+        tg_link?: string,
     }
 
     type oUpdateCompany = oCompany
 
-    type iUploadLogo = File
+    type iUploadLogo = FormData
     type oUploadLogo = EmptyObj
 }

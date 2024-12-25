@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {App} from '@/Types';
 import Default from '@/Layouts/Default/Default';
 import {Flex} from "@chakra-ui/react";
@@ -6,43 +7,13 @@ import CompanyProfileForm from "@/pages/profile/Modules/CompanyProfile/CompanyPr
 import CandidateProfileForm from "@/pages/profile/Modules/CandidateProfile/CandidateProfileForm";
 import {useCompanyProfile} from "@/pages/profile/Hooks/useCompanyProfile";
 import {useCandidateProfile} from "@/pages/profile/Hooks/useCandidateProfile";
-import {useState} from "react";
-
-const mockUser = {
-    name: "John",
-    surname: "Doe",
-    patronymic: "Doevich",
-    date_of_birth: "1990-01-01",
-    contact_phone: "+123456789",
-    contact_email: "new_email@example.com",
-    avatar_path: "/avatars/johndoe.png",
-    tg_link: "https://t.me/johndoe",
-    id: 0,
-    user_id: 0,
-    created_at: "2024-12-12T13:40:42.083Z",
-    updated_at: "2024-12-12T13:40:42.083Z"
-}
-
-const mockCompany = {
-    name: "TechCorp",
-    description: "Leading tech company...",
-    website: "https://techcorp.com",
-    location: "San Francisco",
-    contact_phone: "+123456789",
-    contact_email: "techcorp@example.com",
-    tg_link: "https://t.me/techcorp",
-    logo_path: "/logos/techcorp.png",
-    id: 0,
-    user_id: 0,
-    created_at: "2024-12-23T12:43:27.842Z",
-    updated_at: "2024-12-23T12:43:27.843Z"
-}
 
 const IndexPage:App.Next.NextPage = () => {
-    const [isCandidate, setIsCandidate] = useState<boolean>(true); // TODO: добавить смену стейта после добавления ролевой модели
-    const {data: candidateData, isPending: candidatePending} = useCandidateProfile(isCandidate);
-    const {data: companyData, isPending: companyPending} = useCompanyProfile(!isCandidate);
-    console.log("candidateData=", candidateData);
+    // TODO: добавить смену стейта после добавления ролевой модели
+    const [isCandidate, setIsCandidate] = useState<boolean>(false);
+
+    const {data: candidateData, isPending: candidatePending} = useCandidateProfile({ enabled: isCandidate });
+    const {data: companyData, isPending: companyPending} = useCompanyProfile({ enabled: !isCandidate });
 
     return (
         <Flex

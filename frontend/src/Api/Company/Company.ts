@@ -7,5 +7,5 @@ export default {
         return await axios.get<iApi.oCompany>(paths.me);
     },
     updateCompany: (params: iApi.iUpdateCompany) => axios.put<iApi.oUpdateCompany>(paths.updateCompany, params),
-    uploadLogo: (params: iApi.iUploadLogo) => axios.put<iApi.oUploadLogo>(paths.uploadLogo, params),
+    uploadLogo: (params: iApi.iUploadLogo) => axios.post<iApi.oUploadLogo>(paths.uploadLogo, params),
 }

@@ -1,11 +1,15 @@
 import React, {useState} from "react";
 import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
-import {iCompanyProfileInputs, iCompanyUser, iProfileFormInputs, iCandidateUser} from "@/pages/profile/Types/types";
+import {iCompanyProfileInputs, iCompanyUser} from "@/pages/profile/Types/types";
 import getTelegramNickname from "@/pages/profile/Utils/getTelegramNickname";
 import ProfileImage from "@/pages/profile/Modules/ProfileImage";
 import {Button, Flex} from "@chakra-ui/react";
 import CompanyDetails from "@/pages/profile/Modules/CompanyProfile/CompanyDetails";
 import ProfileContacts from "@/pages/profile/Modules/ProfileContacts";
+import {useUpdateCompany} from "@/pages/profile/Hooks/useUpdateCompany";
+import {useUploadCompanyLogo} from "@/pages/profile/Hooks/useUploadCompanyLogo";
+import createTelegramUrl from "@/pages/profile/Utils/createTelegramUrl";
+import createFormData from "@/pages/profile/Utils/createFormData";
 
 type iCompanyProfileForm = {
     user: iCompanyUser
@@ -13,6 +17,8 @@ type iCompanyProfileForm = {
 
 const CompanyProfileForm = (props: iCompanyProfileForm) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
+    const { mutate: updateCompany, isPending: isUpdatingCompany } = useUpdateCompany();
+    const { mutate: uploadLogo, isPending: isUploadingLogo } = useUploadCompanyLogo();
 
     const methods = useForm<iCompanyProfileInputs>({
         defaultValues: {
@@ -22,8 +28,8 @@ const CompanyProfileForm = (props: iCompanyProfileForm) => {
             description: props.user.description,
             contact_email: props.user.contact_email,
             contact_phone: props.user.contact_phone,
-            telegram: getTelegramNickname(props.user.tg_link),
-            logo_path: props.user.logo_path,
+            tg_link: getTelegramNickname(props.user.tg_link),
+            logo: null,
         }
     });
 
@@ -34,15 +40,26 @@ const CompanyProfileForm = (props: iCompanyProfileForm) => {
         setEditMode(!isEditMode);
     }
 
-    const onCompanyUpdate: SubmitHandler<iCompanyProfileInputs> = (data) => {
-        console.log(data);
+    const onCompanyUpdate: SubmitHandler<iCompanyProfileInputs> = (values) => {
+        const logo = values.logo;
+        const params = {...values, tg_link: createTelegramUrl(values.tg_link)}
+        delete params.logo;
+        updateCompany(params);
+        if (logo) {
+            uploadLogo(createFormData("file", logo));
+        }
+        setEditMode(!isEditMode);
     }
 
     return  (
         <FormProvider {...methods}>
             <form style={{ width: "100%" }} onSubmit={handleSubmit(onCompanyUpdate)} noValidate>
                 <Flex justifyContent={"space-between"} width={"100%"}>
-                    <ProfileImage isEditMode={isEditMode} />
+                    <ProfileImage
+                        isEditMode={isEditMode}
+                        imageSrc={props.user.logo_path}
+                        isCompany={true}
+                    />
                     <Flex flexDirection="column" width={"70%"}>
                         <CompanyDetails isEditMode={isEditMode} />
                         <ProfileContacts isEditMode={isEditMode} />
@@ -62,6 +79,7 @@ const CompanyProfileForm = (props: iCompanyProfileForm) => {
                                     height={"48px"}
                                     ml={"20px"}
                                     type="submit"
+                                    isLoading={isUpdatingCompany || isUploadingLogo}
                                 >
                                     Сохранить изменения
                                 </Button>

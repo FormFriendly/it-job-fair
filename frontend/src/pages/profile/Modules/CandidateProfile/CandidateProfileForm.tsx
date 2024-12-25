@@ -42,7 +42,7 @@ const CandidateProfileForm = (props: iProfileForm) => {
     });
     const { handleSubmit, reset } = methods;
 
-    const onProfileUpdate: SubmitHandler<iProfileFormInputs> = async (values) => {
+    const onProfileUpdate: SubmitHandler<iProfileFormInputs> = (values) => {
         const avatar = values.avatar;
         const params = {...values, tg_link: createTelegramUrl(values.tg_link)}
         delete params.avatar;
