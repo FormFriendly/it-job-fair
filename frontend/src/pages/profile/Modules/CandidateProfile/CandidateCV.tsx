@@ -1,23 +1,23 @@
 import React from "react";
-import {Text, Flex, IconButton, Input, useToast, Button} from "@chakra-ui/react";
+import {Text, Flex, Link, Input, useToast, Button} from "@chakra-ui/react";
 import {AttachmentIcon, DeleteIcon} from "@chakra-ui/icons";
-import {useFormContext} from "react-hook-form";
+import {Controller, useFormContext} from "react-hook-form";
+import createFormData from "@/pages/profile/Utils/createFormData";
+import {useUploadCandidateResume} from "@/pages/profile/Hooks/useUploadCandidateResume";
+import getResumeName from "@/pages/profile/Utils/getResumeName";
 
 type iProfileCV = {
     cv?: any;
-    isEditMode: boolean;
 }
 
 const CandidateCV = (props: iProfileCV) => {
     const toast = useToast();
-    const { register, setValue } = useFormContext();
+    const { setValue, control } = useFormContext();
+    const { mutate: uploadResume, isPending: isUploadingResume } = useUploadCandidateResume();
 
     const handleCV = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
-
-        // TODO: прописать проверку на формат файла если будут требования на беке
-
         if (file.size > 20000000) {
             toast({
                 position: "bottom-left",
@@ -28,8 +28,8 @@ const CandidateCV = (props: iProfileCV) => {
             });
             return;
         }
-
-        setValue("cv", file);
+        setValue("resume", file);
+        uploadResume(createFormData("file", file));
     };
 
     return (
@@ -42,52 +42,68 @@ const CandidateCV = (props: iProfileCV) => {
                 Резюме:
             </Text>
                 <Flex alignItems="center">
-                    <Text
+                    <Link
+                        href={props.cv}
+                        isExternal
                         fontSize={"18px"}
                         textDecoration={props.cv ? "underline" : "none"}
                         color={props.cv ? "auto" : "gray.500"}
                         opacity={props.cv ? 1 : 0.5}
+                        cursor={props.cv ? "pointer" : "default"}
+                        _hover={{
+                            color: props.cv ? "purple.500" : "gray.500",
+                        }}
                     >
-                        {props.cv ? "название файла" : "отсутствует"}
-                    </Text>
-                    {props.isEditMode && (
-                        <Flex ml={"12px"}>
-                            <Button
-                                aria-label={"Change CV"}
+                        {props.cv ? getResumeName(props.cv) : "отсутствует"}
+                    </Link>
+                    <Flex ml={"12px"}>
+                        <Button
+                            aria-label={"Change CV"}
+                            bgColor={"white"}
+                            height={"24px"}
+                            width={"28px"}
+                            minWidth={"28px"}
+                            p={0}
+                            _hover={{ backgroundColor: "purple.50" }}
+                            position={"relative"}
+                        >
+                            <AttachmentIcon color={"purple.500"} />
+                            <Controller
+                                control={control}
+                                name={"resume"}
+                                render={({ field: { value, onChange, ...field } }) => {
+                                    return (
+                                        <Input
+                                            {...field}
+                                            value={value?.fileName}
+                                            onChange={(event) => {
+                                                handleCV(event);
+                                                onChange(event?.target?.files?.[0]);
+                                            }}
+                                            cursor="pointer"
+                                            type="file"
+                                            position="absolute"
+                                            height="100%"
+                                            width="100%"
+                                            opacity="0"
+                                        />
+                                    );
+                                }}
+                            />
+                        </Button>
+                        {/*{props.cv && (
+                            <IconButton
+                                aria-label={"Delete CV"}
                                 bgColor={"white"}
                                 height={"24px"}
                                 width={"28px"}
                                 minWidth={"28px"}
-                                p={0}
-                                _hover={{ backgroundColor: "purple.50" }}
-                                position={"relative"}
-                            >
-                                <AttachmentIcon color={"purple.500"} />
-                                <Input
-                                    {...register("cv")}
-                                    cursor="pointer"
-                                    onChange={handleCV}
-                                    type="file"
-                                    position="absolute"
-                                    height="100%"
-                                    width="100%"
-                                    opacity="0"
-                                />
-                            </Button>
-                            {props.cv && (
-                                <IconButton
-                                    aria-label={"Delete CV"}
-                                    bgColor={"white"}
-                                    height={"24px"}
-                                    width={"28px"}
-                                    minWidth={"28px"}
-                                    ml={"4px"}
-                                    _hover={{ backgroundColor: "red.50" }}
-                                    icon={<DeleteIcon color={"red.500"} />}
-                                />
-                            )}
-                        </Flex>
-                    )}
+                                ml={"4px"}
+                                _hover={{ backgroundColor: "red.50" }}
+                                icon={<DeleteIcon color={"red.500"} />}
+                            />
+                        )}*/}
+                    </Flex>
                 </Flex>
         </Flex>
     )

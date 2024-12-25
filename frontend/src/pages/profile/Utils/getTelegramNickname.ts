@@ -1,4 +1,4 @@
-const getTelegramNickname = (telegramUrl: string | undefined) => {
+const getTelegramNickname = (telegramUrl: string | null) => {
     if (!telegramUrl) return null;
     const urlArray = telegramUrl.split('/')
     return "@" + urlArray[urlArray.length - 1];

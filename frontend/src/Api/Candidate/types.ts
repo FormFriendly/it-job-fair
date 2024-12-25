@@ -25,16 +25,16 @@ export declare namespace iApi {
         name: string,
         surname: string,
         patronymic: string,
-        contact_phone: string,
-        contact_email: string,
-        tg_link: string,
+        contact_phone?: string,
+        contact_email?: string,
+        tg_link?: string,
     }
 
     type oUpdateCandidate = oCandidate
 
-    type iUploadAvatar = File
+    type iUploadAvatar = FormData
     type oUploadAvatar = EmptyObj
 
-    type iUploadResume = File
+    type iUploadResume = FormData
     type oUploadResume = EmptyObj
 }

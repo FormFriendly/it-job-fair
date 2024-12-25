@@ -23,9 +23,9 @@ export type iProfileFormInputs = {
     patronymic: string,
     contact_email: string,
     contact_phone: string,
-    telegram: string | null,
-    avatar_path: string,
-    cv?: any
+    tg_link: string | null,
+    avatar?: File | null,
+    resume?: File | null
 }
 
 export type iCompanyUser = {

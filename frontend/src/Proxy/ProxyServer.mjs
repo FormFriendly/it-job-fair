@@ -26,7 +26,7 @@ const HMRProxy = createProxyMiddleware('/_next/webpack-hmr', {
     ws: true
 })
 
-const apiProxy = createProxyMiddleware(['/api'], {
+const apiProxy = createProxyMiddleware(['/api', '/avatars'], {
     changeOrigin: true,
     secure: false,
     target: apiUrl,

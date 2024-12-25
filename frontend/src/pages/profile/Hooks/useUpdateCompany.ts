@@ -3,7 +3,7 @@ import * as Api from '@/Api';
 import {iApi} from "@/Api/Company/types";
 import { useToast } from '@chakra-ui/react';
 
-export const useUpdateCandidate = () => {
+export const useUpdateCompany = () => {
     const toast = useToast();
     return useMutation({
         mutationFn: (params: iApi.iUpdateCompany) => {
