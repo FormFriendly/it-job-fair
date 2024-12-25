@@ -45,6 +45,9 @@ class Candidate(CandidateInDBBase):
 
     @root_validator(pre=True)
     def set_urls(cls, values):
+        import os
+        FRONTEND_URL = os.getenv("FRONTEND_URL")
+
         # Преобразуем values в обычный словарь
         values_dict = dict(values)
 
@@ -54,10 +57,10 @@ class Candidate(CandidateInDBBase):
 
         # Формируем URL для аватара
         if avatar_path:
-            values_dict['avatar_url'] = f"http://localhost:8002{avatar_path}"
+            values_dict['avatar_url'] = f"{FRONTEND_URL}{avatar_path}"
 
         # Формируем URL для резюме
         if resume_path:
-            values_dict['resume_url'] = f"http://localhost:8002{resume_path}"
+            values_dict['resume_url'] = f"{FRONTEND_URL}{resume_path}"
 
         return values_dict

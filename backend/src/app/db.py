@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 
 from sqlalchemy import (
     create_engine, MetaData, Table, Column, Integer, String, DateTime, ForeignKey,
@@ -9,8 +8,6 @@ from sqlalchemy.sql import func
 from databases import Database
 from sqlalchemy import select
 from datetime import datetime
-
-load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

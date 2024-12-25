@@ -5,6 +5,10 @@ from app.api import ping, auth, users, companies, candidates, vacancies, applica
 from app.db import engine, metadata, database
 from app.db import initialize_static_data
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Создание таблиц, определенных в metadata, если они не существуют
 metadata.create_all(engine) 
 
