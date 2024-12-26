@@ -10,14 +10,22 @@ import {useDisclosure} from "@chakra-ui/hooks";
 import ApplicationForm from "@/pages/vacancies/[id]/Modules/ApplicationForm";
 import ModalWrapper from "@/Components/ModalWrapper";
 import {useUserStore} from "@/Zustand/UserStore/User";
+import {useRouter} from "next/router";
+import getRoute from "@/Routes/Routes";
 
 type iVacancyCard = {
     vacancy: iVacancy;
 }
 
 const VacancyCard = (props: iVacancyCard) => {
+    const router = useRouter();
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const candidate = useUserStore((state) => state.candidate);
+
+    function loginRedirect() {
+        router.push(getRoute.login)
+    }
 
     return (
         <>
@@ -84,9 +92,19 @@ const VacancyCard = (props: iVacancyCard) => {
                 header={"Откликнуться на вакансию"}
             >
                 {candidate ? (
-                    <ApplicationForm vacancyId={props.vacancy.id} candidate={candidate}/>
+                    <ApplicationForm vacancyId={props.vacancy.id} candidate={candidate} onClose={onClose} />
                 ) : (
-                    <Text>Неоходимо авторизоваться</Text>
+                    <Flex flexDirection={"column"}>
+                        <Text textAlign={"center"}>Для отклика необходимо быть авторизованным</Text>
+                        <Button
+                            colorScheme={"purple"}
+                            height={"40px"}
+                            mt={"28px"}
+                            onClick={loginRedirect}
+                        >
+                            Авторизоваться
+                        </Button>
+                    </Flex>
                 )}
             </ModalWrapper>
         </>

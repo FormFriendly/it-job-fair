@@ -1,4 +1,4 @@
 
 export type iApplication = {
-    cover_letter: string | null
+    cover_letter?: string
 }

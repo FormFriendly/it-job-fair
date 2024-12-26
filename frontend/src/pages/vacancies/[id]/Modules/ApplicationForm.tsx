@@ -6,20 +6,31 @@ import {User} from "@/Types/User/User";
 import getResumeName from "@/Utils/Profile/getResumeName";
 import React from "react";
 import createFullName from "@/Utils/Profile/createFullName";
+import {useApplyForVacancy} from "@/pages/vacancies/[id]/Hooks/useApplyForVacancy";
 
 type iApplicationForm = {
     vacancyId: number,
-    candidate: User.Candidate
+    candidate: User.Candidate,
+    onClose: () => void
 }
 
 
 const ApplicationForm = (props: iApplicationForm) => {
-    const methods = useForm<iApplication>();
-
+    const methods = useForm<iApplication>({
+        defaultValues: {
+            cover_letter: undefined,
+        }
+    });
     const { handleSubmit } = methods;
 
+    const { mutate: apply, isPending: isApplying } = useApplyForVacancy();
+
     const submitApplication: SubmitHandler<iApplication> = (values) => {
-        console.log(values)
+        apply({
+            vacancy_id: props.vacancyId,
+            cover_letter: values.cover_letter,
+        })
+        props.onClose();
     };
 
     return (
@@ -61,6 +72,7 @@ const ApplicationForm = (props: iApplicationForm) => {
                         alignSelf={"flex-end"}
                         height={"40px"}
                         mt={"28px"}
+                        isLoading={isApplying}
                     >
                         Откликнуться
                     </Button>
