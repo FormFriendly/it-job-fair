@@ -1,7 +1,7 @@
 import {Tag, TagProps} from '@chakra-ui/react'
 
 type iTagItem = {
-    label: string;
+    label: string,
 }
 
 const TagItem = (props: iTagItem & TagProps) => {
