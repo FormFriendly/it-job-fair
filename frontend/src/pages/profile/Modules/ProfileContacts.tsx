@@ -9,7 +9,7 @@ type iProfileContacts = {
 }
 
 const ProfileContacts = (props: iProfileContacts) => {
-    const { formState: { errors } } = useFormContext();
+    const { resetField, formState: { errors } } = useFormContext();
 
     return (
         <Flex flexDirection="column" mt={"32px"}>
@@ -28,7 +28,13 @@ const ProfileContacts = (props: iProfileContacts) => {
                     registerOptions={
                         {
                             validate: {
-                                isValid: (value: string) => isValidEmail(value) || "Введите email в формате example@mail.ru"
+                                isValid: (value: string | null) => {
+                                    if (!value) {
+                                        resetField("contact_email");
+                                        return
+                                    }
+                                    return isValidEmail(value) || "Введите email в формате example@mail.ru"
+                                }
                             },
                         }
                     }

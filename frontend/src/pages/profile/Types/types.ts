@@ -13,7 +13,8 @@ export type iCandidateUser = {
     user_id: string | number,
     created_at: string,
     updated_at: string,
-    // TODO: добавить резюме как появятся изменения на беке
+    avatar_url: string,
+    resume_url: string
 }
 
 export type iProfileFormInputs = {
@@ -22,9 +23,9 @@ export type iProfileFormInputs = {
     patronymic: string,
     contact_email: string,
     contact_phone: string,
-    telegram: string,
-    avatar_path: string,
-    cv?: any
+    tg_link: string | null,
+    avatar?: File | null,
+    resume?: File | null,
 }
 
 export type iCompanyUser = {
@@ -49,6 +50,10 @@ export type iCompanyProfileInputs = {
     description: string,
     contact_phone: string,
     contact_email: string,
-    logo_path: string,
-    telegram: string,
+    tg_link: string | null,
+    logo?: File | null,
+}
+
+export type iProfileQuery = {
+    enabled: boolean,
 }

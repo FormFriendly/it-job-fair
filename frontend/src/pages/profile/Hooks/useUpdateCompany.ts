@@ -1,13 +1,13 @@
 import {useMutation} from '@tanstack/react-query';
 import * as Api from '@/Api';
-import {iApi} from "@/Api/Profile/types";
+import {iApi} from "@/Api/Company/types";
 import { useToast } from '@chakra-ui/react';
 
-export const useUpdateCandidate = () => {
+export const useUpdateCompany = () => {
     const toast = useToast();
     return useMutation({
         mutationFn: (params: iApi.iUpdateCompany) => {
-            return Api.Profile.updateCompany(params);
+            return Api.Company.updateCompany(params);
         },
         onError: () => {
             toast({

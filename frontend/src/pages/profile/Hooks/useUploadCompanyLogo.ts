@@ -1,13 +1,13 @@
 import {useMutation} from '@tanstack/react-query';
 import * as Api from '@/Api';
-import {iApi} from "@/Api/Profile/types";
+import {iApi} from "@/Api/Company/types";
 import { useToast } from '@chakra-ui/react';
 
 export const useUploadCompanyLogo = () => {
     const toast = useToast()
     return useMutation({
-        mutationFn: (params: iApi.iUploadCompanyLogo) => {
-            return Api.Profile.uploadCompanyLogo(params);
+        mutationFn: (params: iApi.iUploadLogo) => {
+            return Api.Company.uploadLogo(params);
         },
         onError: () => {
             toast({

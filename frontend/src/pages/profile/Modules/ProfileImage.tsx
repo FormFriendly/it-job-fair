@@ -1,18 +1,18 @@
 import React, {useState} from "react";
 import {Avatar, Flex, Button, Input, useToast} from "@chakra-ui/react";
-import {useFormContext} from "react-hook-form";
+import {Controller, useFormContext} from "react-hook-form";
 
 type iProfileImage = {
     imageSrc?: string;
     isEditMode: boolean;
+    isCompany?: boolean;
 }
 
 const ProfileImage = (props: iProfileImage) => {
     const toast = useToast();
-    const { register, setValue } = useFormContext();
+    const { control, setValue } = useFormContext();
     const [previewImage, setPreviewImage] = useState<string>("");
 
-    // TODO: временный вариант, возможно нужно будет сделать отправку ссылки вместо файла
     const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
@@ -40,7 +40,7 @@ const ProfileImage = (props: iProfileImage) => {
 
         const urlImage = URL.createObjectURL(file);
         setPreviewImage(urlImage);
-        setValue("avatar_path", file);
+        setValue(props.isCompany ? "logo" : "avatar", file);
     };
 
     return (
@@ -63,16 +63,29 @@ const ProfileImage = (props: iProfileImage) => {
                 height={"48px"}
                 width={"100%"}
             >
-                Загрузить новый аватар
-                <Input
-                    {...register("avatar_path")}
-                    cursor="pointer"
-                    onChange={handleImage}
-                    type="file"
-                    position="absolute"
-                    height="100%"
-                    opacity="0"
-                    accept="image/*"
+                {props.isCompany ? "Загрузить новый логотип" : "Загрузить новый аватар"}
+                <Controller
+                    control={control}
+                    name={props.isCompany ? "logo" : "avatar"}
+                    render={({ field: { value, onChange, ...field } }) => {
+                        return (
+                            <Input
+                                {...field}
+                                value={value?.fileName}
+                                onChange={(event) => {
+                                    handleImage(event);
+                                    onChange(event?.target?.files?.[0]);
+                                }}
+                                cursor="pointer"
+                                type="file"
+                                position="absolute"
+                                height="100%"
+                                width="100%"
+                                opacity="0"
+                                accept="image/*"
+                            />
+                        );
+                    }}
                 />
             </Button>}
         </Flex>

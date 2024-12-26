@@ -7,6 +7,10 @@ import React, {useState} from "react";
 import getTelegramNickname from "@/pages/profile/Utils/getTelegramNickname";
 import ProfileImage from "@/pages/profile/Modules/ProfileImage";
 import {Button, Flex} from "@chakra-ui/react";
+import createTelegramUrl from "@/pages/profile/Utils/createTelegramUrl";
+import {useUpdateCandidate} from "@/pages/profile/Hooks/useUpdateCandidate";
+import {useUploadCandidateAvatar} from "@/pages/profile/Hooks/useUploadCandidateAvatar";
+import createFormData from "@/pages/profile/Utils/createFormData";
 
 
 type iProfileForm = {
@@ -15,6 +19,8 @@ type iProfileForm = {
 
 const CandidateProfileForm = (props: iProfileForm) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
+    const { mutate: updateCandidate, isPending: isUpdatingCandidate } = useUpdateCandidate();
+    const { mutate: uploadAvatar, isPending: isUploadingAvatar } = useUploadCandidateAvatar();
 
     function toggleEditMode() {
         reset();
@@ -22,31 +28,41 @@ const CandidateProfileForm = (props: iProfileForm) => {
     }
 
     const methods = useForm<iProfileFormInputs>({
+        mode: "all",
         defaultValues: {
-            surname: props.user.surname,
             name: props.user.name,
+            surname: props.user.surname,
             patronymic: props.user.patronymic,
             contact_email: props.user.contact_email,
             contact_phone: props.user.contact_phone,
-            telegram: getTelegramNickname(props.user.tg_link),
-            avatar_path: props.user.avatar_path,
+            tg_link: getTelegramNickname(props.user.tg_link),
+            avatar: null,
+            resume: null
         }
     });
     const { handleSubmit, reset } = methods;
 
-    const onProfileUpdate: SubmitHandler<iProfileFormInputs> = (data) => {
-        console.log(data);
+    const onProfileUpdate: SubmitHandler<iProfileFormInputs> = (values) => {
+        const avatar = values.avatar;
+        const params = {...values, tg_link: createTelegramUrl(values.tg_link)}
+        delete params.avatar;
+        delete params.resume;
+        updateCandidate(params);
+        if (avatar) {
+            uploadAvatar(createFormData("file", avatar));
+        }
+        setEditMode(!isEditMode);
     }
 
     return (
         <FormProvider {...methods}>
             <form style={{ width: "100%" }} onSubmit={handleSubmit(onProfileUpdate)} noValidate>
                 <Flex justifyContent={"space-between"} width={"100%"}>
-                    <ProfileImage isEditMode={isEditMode} />
+                    <ProfileImage isEditMode={isEditMode} imageSrc={props.user.avatar_path}/>
                     <Flex flexDirection="column" width={"70%"}>
                         <CandidateName isEditMode={isEditMode} />
                         <ProfileContacts isEditMode={isEditMode} />
-                        <CandidateCV isEditMode={isEditMode} cv={"test"}/>
+                        <CandidateCV cv={props.user.resume_url} />
                         <Flex mt={"40px"} alignSelf={"flex-end"}>
                             <Button
                                 colorScheme={isEditMode ? "red" : "purple"}
@@ -63,6 +79,7 @@ const CandidateProfileForm = (props: iProfileForm) => {
                                     height={"48px"}
                                     ml={"20px"}
                                     type="submit"
+                                    isLoading={isUpdatingCandidate || isUploadingAvatar}
                                 >
                                     Сохранить изменения
                                 </Button>
