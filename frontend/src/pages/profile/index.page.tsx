@@ -1,7 +1,7 @@
 import {App} from '@/Types';
 import Default from '@/Layouts/Default/Default';
 import {Flex} from "@chakra-ui/react";
-import styles from "@/pages/login/index.module.scss";
+import styles from "./index.module.scss";
 import CompanyProfileForm from "@/pages/profile/Modules/CompanyProfile/CompanyProfileForm";
 import CandidateProfileForm from "@/pages/profile/Modules/CandidateProfile/CandidateProfileForm";
 import {useUserStore} from "@/Zustand/UserStore/User";
@@ -23,13 +23,13 @@ const IndexPage:App.Next.NextPage = () => {
             bgColor={"white"}
             borderRadius={"8px"}
             boxShadow={"0px 1px 2px 0px #0000000F, 0px 1px 3px 0px #0000001A"}
-            overflow={"scroll"}
+            /*overflow={"scroll"}
             _after={{
                 content: `""`,
                 display: "block",
                 height: "80px",
                 width: "100%"
-            }}
+            }}*/
         >
             {roles.candidate ? (
                 candidate && <CandidateProfileForm user={candidate} />

@@ -1,12 +1,11 @@
 import {App} from '@/Types';
 import Default from '@/Layouts/Default/Default';
 import {Flex} from "@chakra-ui/react";
-import styles from "@/pages/login/index.module.scss";
+import styles from './index.module.scss';
 import SearchHeader from "@/pages/vacancies/Modules/SearchHeader";
 import VacancyList from "@/pages/vacancies/Modules/VacancyList";
 import {useVacancies} from "@/pages/vacancies/Hooks/useVacancies";
 import LoaderCircle from "@/Components/Loader/LoaderCircle";
-import {useUserStore} from "@/Zustand/UserStore/User";
 
 const IndexPage:App.Next.NextPage = () => {
     const {data, isPending} = useVacancies();

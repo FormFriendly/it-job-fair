@@ -1,3 +1,5 @@
+import {User} from "@/Types/User/User";
+
 type Id = number;
 
 type iSkill = {
@@ -28,5 +30,6 @@ export type iVacancy = {
     created_at: string,
     updated_at: string,
     skills: Array<iSkill>,
-    specialization: iSpecialization
+    specialization: iSpecialization,
+    company: User.Company
 }

@@ -1,3 +1,4 @@
+import {User} from "@/Types/User/User";
 
 
 export declare namespace iApi {
@@ -30,7 +31,8 @@ export declare namespace iApi {
         created_at: string,
         updated_at: string,
         skills: Array<iSkill>,
-        specialization: iSpecialization
+        specialization: iSpecialization,
+        company: User.Company
     }
 
     type oVacancies = Array<oVacancy>
