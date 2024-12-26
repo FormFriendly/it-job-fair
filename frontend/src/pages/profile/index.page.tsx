@@ -1,19 +1,16 @@
-import {useState} from "react";
 import {App} from '@/Types';
 import Default from '@/Layouts/Default/Default';
 import {Flex} from "@chakra-ui/react";
 import styles from "@/pages/login/index.module.scss";
 import CompanyProfileForm from "@/pages/profile/Modules/CompanyProfile/CompanyProfileForm";
 import CandidateProfileForm from "@/pages/profile/Modules/CandidateProfile/CandidateProfileForm";
-import {useCompanyProfile} from "@/pages/profile/Hooks/useCompanyProfile";
-import {useCandidateProfile} from "@/pages/profile/Hooks/useCandidateProfile";
+import {useUserStore} from "@/Zustand/UserStore/User";
+import {useUserRole} from "@/Hooks/User/useUserRole";
 
 const IndexPage:App.Next.NextPage = () => {
-    // TODO: добавить смену стейта после добавления ролевой модели
-    const [isCandidate, setIsCandidate] = useState<boolean>(false);
-
-    const {data: candidateData, isPending: candidatePending} = useCandidateProfile({ enabled: isCandidate });
-    const {data: companyData, isPending: companyPending} = useCompanyProfile({ enabled: !isCandidate });
+    const roles = useUserRole();
+    const candidate = useUserStore((state) => state.candidate);
+    const company = useUserStore((state) => state.company);
 
     return (
         <Flex
@@ -34,10 +31,10 @@ const IndexPage:App.Next.NextPage = () => {
                 width: "100%"
             }}
         >
-            {isCandidate ? (
-                candidateData && <CandidateProfileForm user={candidateData} />
+            {roles.candidate ? (
+                candidate && <CandidateProfileForm user={candidate} />
             ) : (
-                companyData && <CompanyProfileForm user={companyData} />
+                company && <CompanyProfileForm user={company} />
             )}
         </Flex>
     )

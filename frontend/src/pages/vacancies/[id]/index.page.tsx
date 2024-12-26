@@ -8,6 +8,7 @@ import {useVacancyById} from "@/pages/vacancies/[id]/Hooks/useVacancyById";
 import LoaderCircle from "@/Components/Loader/LoaderCircle";
 import {useRouter} from "next/router";
 import getSingleQueryValue from "@/pages/vacancies/[id]/Utils/getSingleQueryValue";
+import {useUserStore} from "@/Zustand/UserStore/User";
 
 const IndexPage:App.Next.NextPage = () => {
     const router = useRouter();

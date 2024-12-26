@@ -9,13 +9,15 @@ import employmentTypes from "@/pages/vacancies/Utils/employmentTypes";
 import {useDisclosure} from "@chakra-ui/hooks";
 import ApplicationForm from "@/pages/vacancies/[id]/Modules/ApplicationForm";
 import ModalWrapper from "@/Components/ModalWrapper";
+import {useUserStore} from "@/Zustand/UserStore/User";
 
 type iVacancyCard = {
     vacancy: iVacancy;
 }
 
 const VacancyCard = (props: iVacancyCard) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const candidate = useUserStore((state) => state.candidate);
 
     return (
         <>
@@ -81,7 +83,11 @@ const VacancyCard = (props: iVacancyCard) => {
                 onClose={onClose}
                 header={"Откликнуться на вакансию"}
             >
-                <ApplicationForm vacancyId={props.vacancy.id} />
+                {candidate ? (
+                    <ApplicationForm vacancyId={props.vacancy.id} candidate={candidate}/>
+                ) : (
+                    <Text>Неоходимо авторизоваться</Text>
+                )}
             </ModalWrapper>
         </>
     )

@@ -6,6 +6,7 @@ import SearchHeader from "@/pages/vacancies/Modules/SearchHeader";
 import VacancyList from "@/pages/vacancies/Modules/VacancyList";
 import {useVacancies} from "@/pages/vacancies/Hooks/useVacancies";
 import LoaderCircle from "@/Components/Loader/LoaderCircle";
+import {useUserStore} from "@/Zustand/UserStore/User";
 
 const IndexPage:App.Next.NextPage = () => {
     const {data, isPending} = useVacancies();

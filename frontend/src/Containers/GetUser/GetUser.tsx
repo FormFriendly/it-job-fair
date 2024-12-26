@@ -9,6 +9,7 @@ type iCheckAuth = {
 //Контейнер для проверки данных авторизации
 const GetUser = (props: iCheckAuth) => {
     const {isPending} = useUser();
+
     if (isPending) {
         return (
             <div className={styles.wrapper}>
