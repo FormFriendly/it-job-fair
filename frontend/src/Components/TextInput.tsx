@@ -4,9 +4,9 @@ import {Controller, useFormContext} from "react-hook-form";
 type iTextInput = {
     label?: string,
     registerName: string,
-    registerOptions?: any;
-    withError?: boolean;
-    errorMessage?: string;
+    registerOptions?: any,
+    withError?: boolean,
+    errorMessage?: string,
     margins?: string | string[],
 }
 

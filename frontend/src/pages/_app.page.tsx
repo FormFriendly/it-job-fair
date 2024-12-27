@@ -10,6 +10,7 @@ import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import {ChakraProvider} from '@chakra-ui/react'
 import 'sanitize.css';
 import './global.scss';
+import {UserStoreContext} from "@/Zustand/UserStore/User";
 
 dayjs.extend(quarterOfYear);
 
@@ -26,7 +27,8 @@ function MyApp (props: App.Next.AppProps) {
         <main className={font.className}>
             <ErrorBoundary>
                 <ChakraProvider>
-                        <ReactQueryProvider>
+                    <ReactQueryProvider>
+                        <UserStoreContext>
                             <GetUser>
                                 <CheckUser
                                     Role={Component.Role}
@@ -34,10 +36,10 @@ function MyApp (props: App.Next.AppProps) {
                                     <Component
                                         {...pageProps}
                                     />
-
                                 </CheckUser>
                             </GetUser>
-                        </ReactQueryProvider>
+                        </UserStoreContext>
+                    </ReactQueryProvider>
                 </ChakraProvider>
             </ErrorBoundary>
         </main>

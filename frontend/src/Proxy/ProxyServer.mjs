@@ -30,7 +30,7 @@ const apiProxy = createProxyMiddleware(['/api', '/avatars'], {
     changeOrigin: true,
     secure: false,
     target: apiUrl,
-    logLevel:'debug'
+    logLevel: 'debug'
 })
 
 app.use(apiProxy);

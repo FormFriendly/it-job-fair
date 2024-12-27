@@ -4,10 +4,11 @@ import {Controller, useFormContext} from "react-hook-form";
 type iTextInput = {
     label?: string,
     registerName: string,
-    registerOptions?: any;
-    withError?: boolean;
-    errorMessage?: string;
+    registerOptions?: any,
+    withError?: boolean,
+    errorMessage?: string,
     margins?: string | string[],
+    labelFontWeight?: number
 }
 
 const LongTextInput = (props: iTextInput & TextareaProps) => {
@@ -16,7 +17,7 @@ const LongTextInput = (props: iTextInput & TextareaProps) => {
 
     return (
         <Flex flexDirection="column" m={props.margins} width={"100%"}>
-            <Text mb={"4px"}>{label}</Text>
+            <Text mb={"4px"} fontWeight={props.labelFontWeight}>{label}</Text>
             <Controller
                 control={control}
                 name={registerName}

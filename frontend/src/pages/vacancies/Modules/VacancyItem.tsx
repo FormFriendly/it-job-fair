@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Flex, Heading, Text} from "@chakra-ui/react";
+import {Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
 import {iVacancy} from "@/pages/vacancies/Types/types";
 import Salary from "@/pages/vacancies/Modules/Salary";
 import TagItem from "@/Components/TagItem";
@@ -21,35 +21,48 @@ const VacancyItem = (props: iVacancyItem) => {
     return (
         <Flex
             mt={"40px"}
-            flexDirection="column"
             bgColor={"white"}
             borderRadius={"8px"}
             boxShadow={"0px 1px 2px 0px #0000000F, 0px 1px 3px 0px #0000001A"}
             py={"40px"}
             px={"50px"}
         >
-            <Heading mb={"16px"} fontSize={"28px"}>
-                {props.vacancy.title}
-            </Heading>
-            <Flex>
-                <Salary
-                    salaryType={props.vacancy.salary_type}
-                    salary={props.vacancy.salary}
-                    currency={props.vacancy.currency}
-                />
-                <TagItem label={workModeTypes[props.vacancy.work_mode]} mx={"10px"} />
-                <TagItem label={experienceTypes[props.vacancy.experience]} />
+            <Flex flexDirection={"column"} width={"100%"}>
+                <Heading mb={"16px"} fontSize={"28px"}>
+                    {props.vacancy.title}
+                </Heading>
+                <Flex justifyContent={"space-between"}>
+                    <Flex flexDirection="column">
+                        <Flex>
+                            <Salary
+                                salaryType={props.vacancy.salary_type}
+                                salary={props.vacancy.salary}
+                                currency={props.vacancy.currency}
+                            />
+                            <TagItem label={workModeTypes[props.vacancy.work_mode]} mx={"10px"} />
+                            <TagItem label={experienceTypes[props.vacancy.experience]} />
+                        </Flex>
+                        <Flex mt={"16px"} mb={"12px"} flexDirection={"column"}>
+                            <Text fontSize={"16px"}>{props.vacancy.company.name}</Text>
+                            <Text fontSize={"16px"}>{props.vacancy.location}</Text>
+                        </Flex>
+                        <Button
+                            colorScheme={"purple"}
+                            width={"230px"}
+                            onClick={() => { onVacancyClick(props.vacancy.id) }}
+                        >
+                            Откликнуться
+                        </Button>
+                    </Flex>
+                    <Box
+                        bgImage={props.vacancy.company.logo_path}
+                        width={"120px"}
+                        height={"80px"}
+                        backgroundSize={"contain"}
+                        alignSelf={"flex-end"}
+                    />
+                </Flex>
             </Flex>
-            <Flex mt={"16px"} mb={"12px"}>
-                <Text fontSize={"16px"}>{props.vacancy.location}</Text>
-            </Flex>
-            <Button
-                colorScheme={"purple"}
-                width={"230px"}
-                onClick={() => { onVacancyClick(props.vacancy.id) }}
-            >
-                Откликнуться
-            </Button>
         </Flex>
     )
 }

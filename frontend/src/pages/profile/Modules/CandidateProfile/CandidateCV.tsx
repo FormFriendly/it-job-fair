@@ -4,7 +4,7 @@ import {AttachmentIcon, DeleteIcon} from "@chakra-ui/icons";
 import {Controller, useFormContext} from "react-hook-form";
 import createFormData from "@/pages/profile/Utils/createFormData";
 import {useUploadCandidateResume} from "@/pages/profile/Hooks/useUploadCandidateResume";
-import getResumeName from "@/pages/profile/Utils/getResumeName";
+import getResumeName from "@/Utils/Profile/getResumeName";
 
 type iProfileCV = {
     cv?: any;

@@ -1,6 +1,6 @@
 
 
 export default {
-    me: '/candidates/me',
-    updateCandidate: '/candidates',
+    me: '/users/me',
+    updateUser: '/users/me',
 }
