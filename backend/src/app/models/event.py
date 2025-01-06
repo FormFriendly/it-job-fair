@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, root_validator
 
 # Базовая модель
 class EventBase(BaseModel):
@@ -9,12 +9,6 @@ class EventBase(BaseModel):
     img_path: Optional[str] = Field(None, max_length=255, example="/images/event.png")
     starts_at: datetime = Field(..., example="2023-05-01T09:00:00Z")
     ends_at: datetime = Field(..., example="2023-05-01T17:00:00Z")
-    
-    @field_validator("ends_at")
-    def check_ends_after_starts(cls, v, values):
-        if 'starts_at' in values and v <= values['starts_at']:
-            raise ValueError('ends_at must be after starts_at')
-        return v
 
 # Модель для создания
 class EventCreate(EventBase):
@@ -28,12 +22,6 @@ class EventUpdate(BaseModel):
     starts_at: Optional[datetime] = Field(None, example="2023-05-02T09:00:00Z")
     ends_at: Optional[datetime] = Field(None, example="2023-05-02T17:00:00Z")
 
-    @field_validator("ends_at")
-    def check_ends_after_starts(cls, v, values):
-        if 'starts_at' in values and v <= values['starts_at']:
-            raise ValueError('ends_at must be after starts_at')
-        return v
-
 # Модель из БД
 class EventInDBBase(EventBase):
     id: int
@@ -45,4 +33,10 @@ class EventInDBBase(EventBase):
 
 # Модель для ответа клиенту
 class Event(EventInDBBase):
-    pass
+    img_url: Optional[str] = None
+
+    @root_validator(pre=True)
+    def set_urls(cls, values):
+        values_dict = dict(values)
+        values_dict['img_url'] = "https://placehold.jp/1280x720.png"
+        return values_dict

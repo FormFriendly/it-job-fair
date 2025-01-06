@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from app.api import ping, auth, users, companies, candidates, vacancies, applications
+from app.api import ping, auth, users, companies, candidates, vacancies, applications, events, specializations, skills
 from app.db import engine, metadata, database
 from app.db import initialize_static_data
 
@@ -33,6 +33,9 @@ app.include_router(companies.router, prefix="/api/companies", tags=["companies"]
 app.include_router(candidates.router, prefix="/api/candidates", tags=["candidates"])
 app.include_router(vacancies.router, prefix="/api/vacancies", tags=["vacancies"])
 app.include_router(applications.router, prefix="/api/applications", tags=["applications"])
+app.include_router(events.router, prefix="/api/events", tags=["events"])
+app.include_router(specializations.router, prefix="/api/specializations", tags=["specializations"])
+app.include_router(skills.router, prefix="/api/skills", tags=["skills"])
 
 # Раздача статических файлов
 app.mount("/avatars", StaticFiles(directory="uploads/avatars"), name="avatars")
