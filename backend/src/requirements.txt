@@ -14,3 +14,4 @@ python-multipart
 # dev
 pytest
 requests
+httpx

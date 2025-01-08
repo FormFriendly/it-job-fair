@@ -128,3 +128,57 @@ async def get_all():
         )
 
     return vacancies_result
+
+# Получить вакансии по event_id
+async def get_by_event_id(event_id: int):
+    # Основной запрос для вакансий с фильтром по event_id
+    vacancies_query = (
+        select(
+            vacancies,
+            specializations.c.name.label("specialization_name"),
+        )
+        .where(vacancies.c.event_id == event_id)
+        .join(specializations, vacancies.c.specialization_id == specializations.c.id)
+    )
+    vacancies_data = await database.fetch_all(vacancies_query)
+
+    if not vacancies_data:
+        return []
+
+    # Получить все навыки, связанные с вакансиями
+    skills_query = (
+        select(
+            vacancies_skills.c.vacancy_id,
+            skills.c.id.label("skill_id"),
+            skills.c.skill.label("skill_skill"),
+        )
+        .join(skills, vacancies_skills.c.skill_id == skills.c.id)
+        .where(vacancies_skills.c.vacancy_id.in_([v["id"] for v in vacancies_data]))
+    )
+    skills_data = await database.fetch_all(skills_query)
+
+    # Организовать навыки по вакансиям
+    skills_mapping = {}
+    for skill in skills_data:
+        vacancy_id = skill["vacancy_id"]
+        if vacancy_id not in skills_mapping:
+            skills_mapping[vacancy_id] = []
+        skills_mapping[vacancy_id].append({"id": skill["skill_id"], "skill": skill["skill_skill"]})
+
+    # Формирование финального результата
+    vacancies_result = []
+    for vacancy in vacancies_data:
+        vacancy_id = vacancy["id"]
+        vacancies_result.append(
+            Vacancy(
+                **vacancy,
+                skills=skills_mapping.get(vacancy_id, []),
+                specialization={
+                    "id": vacancy["specialization_id"],
+                    "name": vacancy["specialization_name"],
+                },
+                company=await get_company(vacancy["company_id"])
+            )
+        )
+
+    return vacancies_result
