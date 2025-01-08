@@ -1,35 +1,18 @@
-import {User} from "@/Types/User/User";
+import {Vacancy} from "@/Types/Vacancy/Vacancy";
 
 type Id = number;
 
-type iSkill = {
-    skill: string,
-    id: Id
-}
+export type iVacancy = Vacancy.Item
 
-type iSpecialization = {
+export type iEvent = {
     name: string,
-    id: Id
-}
-
-export type iVacancy = {
-    title: string,
     description?: string,
-    salary: number,
-    salary_type: "from" | "to",
-    currency?: string,
-    location?: string,
-    work_mode: "remote" | "hybrid" | "office",
-    employment_type: "full-time" | "part-time",
-    experience: "no experience" | "less than year" | "1-2 years" | "3-4 years" | "5+ years",
-    status: "active" | "closed" | "archived" | "draft",
     id: Id,
-    company_id: Id,
-    event_id: Id,
-    specialization_id: Id,
+    starts_at: string,
+    ends_at: string,
     created_at: string,
     updated_at: string,
-    skills: Array<iSkill>,
-    specialization: iSpecialization,
-    company: User.Company
+    img_url?: string,
+    img_path?: string,
 }
+

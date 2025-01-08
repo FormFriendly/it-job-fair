@@ -3,12 +3,13 @@ import Default from '@/Layouts/Default/Default';
 import {Flex} from "@chakra-ui/react";
 import styles from './index.module.scss';
 import SearchHeader from "@/pages/vacancies/Modules/SearchHeader";
-import VacancyList from "@/pages/vacancies/Modules/VacancyList";
 import {useVacancies} from "@/pages/vacancies/Hooks/useVacancies";
-import LoaderCircle from "@/Components/Loader/LoaderCircle";
+import VacancyTabs from "@/pages/vacancies/Modules/VacancyTabs";
+import {useEvents} from "@/pages/vacancies/Hooks/useEvents";
 
 const IndexPage:App.Next.NextPage = () => {
-    const {data, isPending} = useVacancies();
+    const {data: vacancies, isPending: vacanciesLoading} = useVacancies();
+    const {data: events, isPending: eventsLoading} = useEvents();
 
     return (
         <Flex
@@ -22,7 +23,12 @@ const IndexPage:App.Next.NextPage = () => {
                 width={"60%"}
             >
                 <SearchHeader />
-                {isPending ? (<LoaderCircle />) : (data && <VacancyList vacancies={data}/>)}
+                <VacancyTabs
+                    vacanciesLoading={vacanciesLoading}
+                    vacancies={vacancies}
+                    eventsLoading={eventsLoading}
+                    events={events}
+                />
             </Flex>
         </Flex>
     )

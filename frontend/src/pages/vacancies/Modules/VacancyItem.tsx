@@ -20,7 +20,7 @@ const VacancyItem = (props: iVacancyItem) => {
 
     return (
         <Flex
-            mt={"40px"}
+            mb={"40px"}
             bgColor={"white"}
             borderRadius={"8px"}
             boxShadow={"0px 1px 2px 0px #0000000F, 0px 1px 3px 0px #0000001A"}
@@ -33,7 +33,7 @@ const VacancyItem = (props: iVacancyItem) => {
                 </Heading>
                 <Flex justifyContent={"space-between"}>
                     <Flex flexDirection="column">
-                        <Flex>
+                        <Flex alignItems={"center"}>
                             <Salary
                                 salaryType={props.vacancy.salary_type}
                                 salary={props.vacancy.salary}
@@ -60,6 +60,7 @@ const VacancyItem = (props: iVacancyItem) => {
                         height={"80px"}
                         backgroundSize={"contain"}
                         alignSelf={"flex-end"}
+                        ml={"12px"}
                     />
                 </Flex>
             </Flex>
