@@ -1,5 +1,5 @@
-from typing import List
-from sqlalchemy import select, insert, update, delete
+from typing import List, Optional
+from sqlalchemy import and_, or_, select, insert, update, delete
 from app.db import vacancies, vacancies_skills, specializations, skills, database
 from app.crud.companies import get as get_company
 from app.models.vacancy import Vacancy, VacancyUpdate
@@ -81,16 +81,75 @@ async def get(vacancy_id: int):
     return Vacancy(**vacancy_data)
 
 # Получить все вакансии
-async def get_all():
+async def get_all(
+    text: Optional[str] = None,
+    location: Optional[str] = None,
+    salary: Optional[float] = None,
+    salary_type: Optional[str] = None,
+    work_mode: Optional[str] = None,
+    experience: Optional[str] = None,
+    employment_type: Optional[str] = None,
+    event_id: Optional[int] = None,
+    specialization_ids: Optional[List[int]] = None,
+    skill_ids: Optional[List[int]] = None
+):
+    filters = []
+    
+    # Фильтр по названию или описанию
+    if text:
+        filters.append(
+            or_(
+                vacancies.c.title.ilike(f"%{text}%"),
+                vacancies.c.description.ilike(f"%{text}%")
+            )
+        )
+        
+    # Фильтры по полям вакансий
+    if work_mode:
+        filters.append(vacancies.c.work_mode == work_mode)
+    if salary and salary_type:
+        if salary_type == "from":
+            filters.append(vacancies.c.salary >= salary)
+        elif salary_type == "to":
+            filters.append(vacancies.c.salary <= salary)
+    if experience:
+        filters.append(vacancies.c.experience == experience)
+    if location:
+        filters.append(vacancies.c.location.ilike(f"%{location}%"))
+    if employment_type:
+        filters.append(vacancies.c.employment_type == employment_type)
+    if event_id:
+        filters.append(vacancies.c.event_id == event_id)
+        
+    # Фильтр по специализациям
+    if specialization_ids:
+        filters.append(vacancies.c.specialization_id.in_(specialization_ids))
+        
+    # Фильтр по навыкам
+    if skill_ids:
+        filters.append(
+            vacancies.c.id.in_(
+                select(vacancies_skills.c.vacancy_id)
+                .where(vacancies_skills.c.skill_id.in_(skill_ids))
+            )
+        )
+
+        
     # Основной запрос для вакансий
     vacancies_query = (
         select(
             vacancies,
             specializations.c.name.label("specialization_name"),
         )
+        .select_from(vacancies)
         .join(specializations, vacancies.c.specialization_id == specializations.c.id)
+        .where(and_(*filters))
     )
+    
     vacancies_data = await database.fetch_all(vacancies_query)
+    
+    if not vacancies_data:
+        return []
 
     # Получить все навыки, связанные с вакансиями
     skills_query = (
@@ -100,6 +159,7 @@ async def get_all():
             skills.c.skill.label("skill_skill"),
         )
         .join(skills, vacancies_skills.c.skill_id == skills.c.id)
+        .where(vacancies_skills.c.vacancy_id.in_([v["id"] for v in vacancies_data]))
     )
     skills_data = await database.fetch_all(skills_query)
 

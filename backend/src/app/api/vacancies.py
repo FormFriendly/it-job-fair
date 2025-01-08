@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Path
-from typing import List
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Path
+from typing import List, Optional
 from app.crud import companies
+from app.db import EmploymentType, Experience, SalaryType, WorkMode
 from app.models.vacancy import VacancyCreate, Vacancy, VacancyUpdate
 from app.models.application import Application
 from app.api.auth import verify_user_is_company
@@ -11,14 +12,30 @@ router = APIRouter()
 
 # Получить все вакансии
 @router.get("/", response_model=List[Vacancy])
-async def get_all_vacancies():
-    vacancies = await get_all()
-    if not vacancies:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Vacancies not found"
-        )
-    return vacancies
+async def get_all_vacancies(
+    text: Optional[str] = Query(None, description="Search by title or description"),
+    location: Optional[str] = Query(None, description="Location"),
+    salary: Optional[float] = Query(None, description="Salary"),
+    salary_type: Optional[SalaryType] = Query(None, description="Salary type"),
+    work_mode: Optional[WorkMode] = Query(None, description="Work mode"),
+    experience: Optional[Experience] = Query(None, description="Work experience"),
+    employment_type: Optional[EmploymentType] = Query(None, description="Employment type "),
+    event_id: Optional[int] = Query(None, description="Event ID"),
+    specialization_ids: Optional[List[int]] = Query(None, description="List of specialization IDs"),
+    skill_ids: Optional[List[int]] = Query(None, description="List of skill IDs"),
+):
+    return await get_all(
+        text=text,
+        location=location,
+        salary=salary,
+        salary_type=salary_type,
+        work_mode=work_mode,
+        experience=experience,
+        employment_type=employment_type,
+        event_id=event_id,
+        specialization_ids=specialization_ids,
+        skill_ids=skill_ids,
+    )
 
 # Получить вакансию по ID
 @router.get("/{vacancy_id}", response_model=Vacancy)
