@@ -34,8 +34,5 @@ async def get_event(event_id: int):
 async def get_event_vacancies(event_id: int):
     vacancies = await get_by_event_id(event_id)
     if not vacancies:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="No vacancies found for this event"
-        )
+        return []
     return vacancies
