@@ -7,7 +7,7 @@ import {
     Box,
     Flex,
     Heading,
-    Link,
+    Link, Spinner,
     Text
 } from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
@@ -34,6 +34,16 @@ const EventItem = (props: iEventItem) => {
         if (!data) return;
         setVacancies(data);
     }, [data])
+
+    const Vacancies = () => {
+        return (
+            <>
+                {!vacancies || vacancies.length === 0 ? <Text fontStyle={"italic"}>Вакансии не найдены</Text>
+                    : vacancies.map((vacancy) => <EventVacancy key={vacancy.id} vacancy={vacancy} />)
+                }
+            </>
+        )
+    }
 
     return (
         <Accordion
@@ -94,12 +104,7 @@ const EventItem = (props: iEventItem) => {
                             </Flex>
                         </Flex>
                         <AccordionPanel p={0} mt={"8px"}>
-                            {!vacancies || vacancies.length === 0 ? (
-                                <Text fontStyle={"italic"}>Вакансии не найдены</Text>
-                            ) : vacancies.map((vacancy) => (
-                                    <EventVacancy key={vacancy.id} vacancy={vacancy} />
-                                )
-                            )}
+                            {isPending ? <Spinner color="purple.500" /> : <Vacancies />}
                         </AccordionPanel>
                     </>
             )}
