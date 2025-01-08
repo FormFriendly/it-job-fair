@@ -16,8 +16,22 @@ const SearchHeader = () => {
                 Найди работу мечты в IT
             </Heading>
             <InputGroup>
-                <Input />
-                <InputRightAddon>
+                <Input
+                    focusBorderColor={"purple.500"}
+                    borderColor={"purple.100"}
+                    _hover={{
+                        borderColor: "purple.500",
+                    }}
+                />
+                <InputRightAddon
+                    bgColor={"purple.100"}
+                    borderWidth={0}
+                    cursor={"pointer"}
+                    _hover={{
+                        backgroundColor: "purple.200",
+                    }}
+                    transition={"0.3s"}
+                >
                     <SearchIcon />
                 </InputRightAddon>
             </InputGroup>

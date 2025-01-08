@@ -24,8 +24,8 @@ const EventItem = (props: iEventItem) => {
                 <Flex justifyContent={"space-between"}>
                     <Flex flexDirection="column">
                         <Flex>
-                            <TagItem label={`Начало: ${new Date(props.event.starts_at).toLocaleDateString("ru-Ru")}`} mr={"10px"} />
-                            <TagItem label={`Конец: ${new Date(props.event.ends_at).toLocaleDateString("ru-Ru")}`} />
+                            <TagItem label={`Начало: ${new Date(props.event.starts_at).toLocaleDateString("ru-RU")}`} mr={"10px"} />
+                            <TagItem label={`Конец: ${new Date(props.event.ends_at).toLocaleDateString("ru-RU")}`} />
                         </Flex>
                         <Text
                             mt={"16px"}
