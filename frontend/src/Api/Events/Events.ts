@@ -6,7 +6,7 @@ export default {
     getEvents: async () => {
         return await axios.get<iApi.oEvents>(paths.getEvents);
     },
-    getEventById: async (id: string) => {
-        return await axios.get<iApi.oEvent>(paths.getEvent + id);
+    getEventVacancies: async (id: string) => {
+        return await axios.get<iApi.oEventVacancies>(paths.getEvent + id + "/vacancies");
     },
 }

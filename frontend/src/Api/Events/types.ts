@@ -1,3 +1,6 @@
+import {Vacancy} from "@/Types/Vacancy/Vacancy";
+
+
 export declare namespace iApi {
     type Id = number;
 
@@ -14,4 +17,7 @@ export declare namespace iApi {
     }
 
     type oEvents = Array<oEvent>
+
+
+    type oEventVacancies = Array<Vacancy.Item>
 }

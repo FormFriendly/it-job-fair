@@ -33,7 +33,7 @@ const VacancyItem = (props: iVacancyItem) => {
                 </Heading>
                 <Flex justifyContent={"space-between"}>
                     <Flex flexDirection="column">
-                        <Flex>
+                        <Flex alignItems={"center"}>
                             <Salary
                                 salaryType={props.vacancy.salary_type}
                                 salary={props.vacancy.salary}
