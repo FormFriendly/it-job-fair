@@ -6,4 +6,8 @@ export declare namespace iApi {
     type oVacancy = Vacancy.Item
 
     type oVacancies = Array<oVacancy>
+
+    type iParams = {
+        text?: string;
+    }
 }

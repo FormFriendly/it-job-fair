@@ -16,3 +16,14 @@ export type iEvent = {
     img_path?: string,
 }
 
+export type iSearchInput = {
+    text: string,
+}
+
+export type iSearchParams = {
+    text?: string;
+}
+
+export type iQueryParams = iSearchParams & {
+    enabled: boolean,
+}

@@ -20,10 +20,10 @@ const VacancyTabs = (props: iVacancyTabs) => {
         >
             <TabList>
                 <Tab fontWeight={500}>
-                    Вакасии
+                    {"Вакасии"}{props.vacancies ? ` - ${props.vacancies?.length}` : ""}
                 </Tab>
                 <Tab fontWeight={500} ml={"12px"}>
-                    Мероприятия
+                    {"Мероприятия"}{props.events ? ` - ${props.events?.length}` : ""}
                 </Tab>
             </TabList>
             <TabPanels>
