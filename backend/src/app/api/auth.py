@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
+from app.managers.user import UserManagerFactory
 from app.models.user import UserCreate, UserAuth
 from app.crud.candidates import post as create_candidate_profile
 from app.crud.companies import post as create_company_profile
@@ -40,15 +41,17 @@ async def register(user: UserCreate):
     user = await create_user(user_data)
     access_token = create_access_token(data={"user_id": user['id'], "role": user["role"]})
     
-    # Создаем профиль в зависимости от роли
-    if user['role'] == UserRole.candidate:
-        candidate = await create_candidate_profile(user["id"])
-        return {"access_token": access_token, "token_type": "bearer", **user, "candidate": candidate, "company": None}
-    elif user['role'] == UserRole.company:
-        company = await create_company_profile(user["id"])
-        return {"access_token": access_token, "token_type": "bearer", **user, "candidate": None, "company": company}
-
-    raise HTTPException(status_code=400, detail="Invalid role")
+    # Создаем профиль
+    user_manager = UserManagerFactory.get_manager(user)
+    profile = await user_manager.create_profile()
+        
+    return {
+        "access_token": access_token, 
+        "token_type": "bearer", 
+        **user, 
+        "candidate": profile if user["role"] == UserRole.candidate else None, 
+        "company": profile if user["role"] == UserRole.company else None
+    }
 
 # Маршрут для входа
 @router.post("/login", response_model=UserAuth)

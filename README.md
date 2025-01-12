@@ -32,75 +32,53 @@
 
 #### Наследование
 
-Модели данных backend'а приложения применяют наследование. На основе BaseModel библиотеки Pydantic описывается базовая модель компании, на основе которой в свою очередь описываются модели для хранения в базе данных и возвращения в ответах API.
+Создан базовый класс `UserManager`, который определяет общую структуру для работы с различными типами пользователей. Подклассы `CandidateManager` и `CompanyManager` наследуют этот класс и реализуют свою уникальную логику.
 
 ```python
-# /backend/src/app/models/company.py
-# Базовая модель
-class CompanyBase(BaseModel):
-    name: str = Field(...)
-    #...
+# /backend/src/app/managers/user.py
+class UserManager(ABC):
+    @abstractmethod
+    async def create_profile(self):
+        pass
 
-# Модель из БД
-class CompanyInDBBase(CompanyBase):
-    id: int
-    #...
+class CandidateManager(UserManager):
+    async def create_profile(self):
+        # Логика создания профиля кандидата
+        pass
 
-# Модель для ответа клиенту
-class Company(CompanyInDBBase):
-    logo_url: Optional[str] = None
-    #...
+class CompanyManager(UserManager):
+    async def create_profile(self):
+        # Логика создания профиля компании
+        pass
+```
+
+#### Полиморфизм
+
+Полиморфизм используется в обработке профилей пользователей. Код работает с абстракцией `UserManager`, вызывая методы `create_profile`, не зная заранее, какой тип пользователя (компания или кандидат) будет обрабатываться.
+
+```python
+# /backend/src/app/api/auth.py
+@router.post("/register", response_model=UserAuth, status_code=201)
+async def register(user: UserCreate):
+    user_manager = UserManagerFactory.get_manager(user)
+    profile = await user_manager.create_profile()
+    return {"profile": profile}
 ```
 
 #### Инкапсуляция
 
-Пример инкапсуляции логики преобразования данных в методах класса демонстрируется на примере использования `@root_validator` в моделях. Для компании описана функция `set_urls`, которая определяет логику назначения `logo_url` на основе поля `logo_path`.
+Инкапсуляция демонстрируется в том же примере с использованием `UserManager` и его дочерних классов. Само по себе использование класса — уже проявление инкапсуляции. У класса есть внутренняя реализация — она обеспечивает правильную работу класса — и публичный интерфейс, в котором собраны методы для внешнего использования.
 
 ```python
-# /backend/src/app/models/company.py
-class Company(CompanyInDBBase):
-    logo_url: Optional[str] = None
-
-    @root_validator(pre=True)
-    def set_urls(cls, values):
-        logo_path = values['logo_path']
-        if logo_path:
-            values['logo_url'] = f"{FRONTEND_URL}{logo_path}"
-        return values
+# /backend/src/app/managers/user.py
+class CandidateManager(UserManager):
+    # Инкапсуляция логики создания профиля
+    async def create_profile(self):
+        return await create_candidate_profile(self.user_data["id"])
+    # Инкапсуляция логики получения профиля
+    async def get_profile(self):
+        return await get_candidate_profile(self.user_data["id"])
 ```
-
-#### Абстракция
-
-Pydantic-модели используют типизацию, скрывая детали реализации валидации и приведения типов.
-
-```python
-# /backend/src/app/models/company.py
-class CompanyBase(BaseModel):
-    name: str = Field(..., min_length=1, max_length=255)
-    description: Optional[str] = Field(None, max_length=1000)
-    location: Optional[str] = Field(None, max_length=255)
-    contact_email: Optional[EmailStr] = Field(None, max_length=255)
-```
-
-#### Точки роста в будущем
-
-1. Перенос CRUD-логики из функций в классы-менеджеры, например:
-
-```python
-class VacancyManager:
-    def __init__(self, db):
-        self.db = db
-
-    async def create_vacancy(self, company_id, data):
-        # Логика создания вакансии
-        pass
-
-    async def update_vacancy(self, vacancy_id, data):
-        # Логика обновления вакансии
-        pass
-```
-
-2. Добавить методы для обработки данных, зависящие от типа пользователя (компания/кандидат). Например: абстрактный класс `UserManager` с методами `create` и `update`, которые реализуются в подклассах `CompanyManager` и `CandidateManager` с учетом их особенностей.
 
 ### Паттерны проектирования
 
@@ -184,6 +162,7 @@ async def get_user_by_id(user_id: int):
 FastAPI применяет декораторы для определения маршрутов API. Таким образом, благодаря декораторам функции приобретают HTTP-метод, маршрут и его параметры, модель для ответа, код состояния HTTP-ответа, зависимости и др.
 
 ```python
+# /backend/src/app/api/users.py
 @router.get("/users/{id}",
     response_model=User,
     status_code=200,
@@ -193,26 +172,25 @@ async def read_user():
     #...
 ```
 
-#### Точки роста в будущем
+#### Фабрика (Factory)
 
-1. Реализовать фабрику для создания различных типов пользователей, например:
+В проекте реализован паттерн Factory для создания менеджеров пользователей в зависимости от их роли, упрощая добавление новых типов пользователей в будущем.
 
 ```python
-class UserFactory:
+# /backend/src/app/managers/user.py
+class UserManagerFactory:
     @staticmethod
-    def create_user(user_type: str, **kwargs):
-        if user_type == "company":
-            return CompanyManager(**kwargs)
-        elif user_type == "candidate":
-            return CandidateManager(**kwargs)
+    def get_manager(user_data):
+        if user_data["role"] == UserRole.candidate:
+            return CandidateManager(user_data)
+        elif user_data["role"] == UserRole.company:
+            return CompanyManager(user_data)
+        raise ValueError("Unsupported user role")
 ```
-
-2. Использовать паттерн Наблюдатель (Observer) для уведомления кандидатов о новых вакансиях или изменении статуса откликов.
-3. Реализовать паттерн Стратегия (Strategy) для фильтрации вакансий по их параметрам (тип занятости, зарплата, специализация и др.).
 
 ### Тестирование
 
-Для ряда конечных точек API разработаны тесты, проверяющие работу системы на позитивных и негативных сценариях.
+Для ряда маршрутов API разработаны тесты, проверяющие работу системы на позитивных и негативных сценариях.
 
 Типичный тест-кейс состоит из набора входных данных, подготовки предварительых условий (при необходимости используя Mock-объекты для изоляции), выполнения определенных действий и сравнения полученного результата с ожидаемым:
 
