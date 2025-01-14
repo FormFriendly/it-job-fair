@@ -1,12 +1,12 @@
-import {App, Vacancy} from '@/Types';
+import {App, Vacancy as VacancyType} from '@/Types';
 import Default from '@/Layouts/Default/Default';
 import styles from "./indes.module.scss";
 import { Button, Flex, Text } from '@chakra-ui/react';
-import CreateVacansyModal from './Modules/CreateJobModal/CreateVacansyModal';
+import CreateVacancyModal from './Modules/CreateJobModal/CreateVacancyModal';
 import { useVacancies } from './Hooks/useVacansies';
 import { useUserStore } from '@/Zustand/UserStore/User';
 import { User } from '@/Types/User/User';
-import Vacansy from './Modules/Vacansy/Vanansy';
+import Vacancy from './Modules/Vacancy/Vanancy';
 
 const IndexPage:App.Next.NextPage = () => {
     const {data} = useVacancies()
@@ -21,11 +21,11 @@ const IndexPage:App.Next.NextPage = () => {
                         Мои вакансии
                     </Text>
                 </Flex>
-                <CreateVacansyModal/>
+                <CreateVacancyModal/>
                 <Flex flexDirection={'column'} gap={'20px'}>
                     {
                         data?.map((item) => {
-                            return <Vacansy data={item} />
+                            return <Vacancy data={item} />
                         })
                     }
                 </Flex>

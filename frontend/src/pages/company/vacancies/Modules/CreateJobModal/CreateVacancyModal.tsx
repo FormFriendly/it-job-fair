@@ -40,7 +40,7 @@ export type iCreateVacancy = {
     skills_ids: number[];
 };
 
-const CreateVacansyModal = () => {
+const CreateVacancyModal = () => {
     const [isOpen, setIsOpen] = useState(false);
     const {data: skills} = useSkills()
     const {data: specializations} = useSpecializations()
@@ -213,4 +213,4 @@ const CreateVacansyModal = () => {
     );
 };
 
-export default CreateVacansyModal;
+export default CreateVacancyModal;

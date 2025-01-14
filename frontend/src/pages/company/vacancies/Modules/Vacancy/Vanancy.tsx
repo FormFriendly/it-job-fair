@@ -1,8 +1,8 @@
-import { Vacancy } from "@/Types"
+import { Vacancy as VacancyType } from "@/Types"
 import { Flex, Text } from "@chakra-ui/react"
 
-type VacansyProps = {
-    data: Vacancy.Vacancy.Item
+type VacancyProps = {
+    data: VacancyType.Vacancy.Item
 }
 
 const getRusSalaryType = (type: string) => {
@@ -30,7 +30,7 @@ const getRusYears = (years: string) => {
     if (years === "5+ years") return "5+ лет";
 }
 
-const Vacansy = (props: VacansyProps) => {
+const Vacancy = (props: VacancyProps) => {
     const {data} = props
     console.log(data)
     return (
@@ -70,4 +70,4 @@ const Vacansy = (props: VacansyProps) => {
     )
 }
 
-export default Vacansy
+export default Vacancy
