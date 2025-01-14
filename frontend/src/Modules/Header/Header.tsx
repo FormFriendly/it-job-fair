@@ -16,7 +16,8 @@ const Header = () => {
             padding={'24px 40px'} 
             border={'1px solid #E1E1E1'}
             justifyContent={'space-between'}>
-            <Flex 
+            <Flex onClick={() => router.push(Routes.vacancies)}
+                cursor={'pointer'}
                 alignItems={'center'} 
                 gap={'20px'}>
                 <Logo />
@@ -27,17 +28,20 @@ const Header = () => {
                 </Text>
             </Flex>
             {
-                user &&
+                user ?
                 <Menu>
                     <MenuButton as={Button} rightIcon={<Avatar />}>
                         {user.name}
                     </MenuButton>
                     <MenuList>
                         <MenuItem onClick={() => router.push(Routes.profile.main) }>Профиль</MenuItem>
-                        <MenuItem onClick={() => router.push(Routes.company.vacancies) }>Вакансии</MenuItem> {/* TODO в дальнейшем будет разделение доступных роутов для разных пользователей */}
+                        <MenuItem onClick={() => user.role === 'company' ? router.push(Routes.company.vacancies) : router.push(Routes.vacancies)}>Вакансии</MenuItem> {/* TODO в дальнейшем будет разделение доступных роутов для разных пользователей */}
                         <MenuItem onClick={() => logout()}>Выход</MenuItem>
                     </MenuList>
                 </Menu>
+                : <Button onClick={() => router.push(Routes.login)} >
+                    Войти или зарегистрироваться
+                </Button>
             }
         </Flex> 
     )
