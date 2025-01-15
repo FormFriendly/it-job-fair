@@ -12,4 +12,7 @@ export default {
     getVacancyById: async (id: string) => {
         return await axios.get<iApi.oVacancy>(paths.getVacancy + id);
     },
+    getVacancyApplications: async (id: string) => {
+        return await axios.get<iApi.Application[]>(paths.getVacancyApplication(id))
+    }
 }
