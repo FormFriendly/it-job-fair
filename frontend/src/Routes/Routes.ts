@@ -7,6 +7,7 @@ export const Routes = {
     },
     company: {
         vacancies: "/company/vacancies",
+        applications: (id: string) => `/company/applications/${id}`,
     }
 }
 

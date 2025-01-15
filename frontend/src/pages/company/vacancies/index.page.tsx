@@ -11,7 +11,7 @@ import Vacancy from './Modules/Vacancy/Vanancy';
 const IndexPage:App.Next.NextPage = () => {
     const {data} = useVacancies()
     const company = useUserStore((state) => state.company) as User.Company;
-    const thisCompanyVacs = data?.filter((item) => item.company_id === company.id)
+    const thisCompanyVacs = data?.filter((item) => item.company.name === company.name)
 
     return (
         <div className={styles.wrapper}>
@@ -24,8 +24,8 @@ const IndexPage:App.Next.NextPage = () => {
                 <CreateVacancyModal/>
                 <Flex flexDirection={'column'} gap={'20px'}>
                     {
-                        data?.map((item) => {
-                            return <Vacancy data={item} />
+                        thisCompanyVacs?.map((item, index) => {
+                            return <Vacancy isFirst={index === 1} data={item} key={item.id}/>
                         })
                     }
                 </Flex>
